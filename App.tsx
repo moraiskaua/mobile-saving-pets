@@ -1,10 +1,12 @@
+import { NavigationContainer } from '@react-navigation/native';
 import { Text, View } from 'react-native';
+import Tabs from './src/navigation/Tab';
 
 const App = () => {
   return (
-    <View>
-      <Text className="">Saving Pets</Text>
-    </View>
+    <NavigationContainer>
+      <Tabs />
+    </NavigationContainer>
   );
 };
 
