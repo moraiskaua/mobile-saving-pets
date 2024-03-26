@@ -1,12 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { Text, View } from 'react-native';
 import Tabs from './src/navigation/Tab';
+import { AuthProvider } from './src/contexts/AuthContext';
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Tabs />
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <Tabs />
+      </NavigationContainer>
+    </AuthProvider>
   );
 };
 
