@@ -14,7 +14,7 @@ const Button: React.FC<ButtonProps> = ({ children, variant }) => {
   if (isSecondary) {
     return (
       <TouchableOpacity
-        className={cn(`w-full h-14 rounded-lg justify-center items-center`)}
+        className={cn(`w-full h-14 rounded-xl justify-center items-center`)}
         style={{
           borderWidth: 1,
           borderColor: '#BE4CD0',
@@ -29,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({ children, variant }) => {
         start={{ x: 0.0, y: 0.25 }}
         end={{ x: 0.5, y: 1.0 }}
         colors={['#70529D', '#BE4CD0']}
-        className={cn(`w-full h-14 rounded-lg`)}
+        className={cn(`w-full h-14 rounded-xl`)}
       >
         <TouchableOpacity className={cn(`h-full justify-center items-center`)}>
           <Text className="text-white text-lg">{children}</Text>
