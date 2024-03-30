@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Text,
   TextInput,
@@ -22,6 +22,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const [value, setValue] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const inputRef = useRef<TextInput>(null);
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -31,6 +32,7 @@ const Input: React.FC<InputProps> = ({
     <View className="relative">
       <TextInput
         {...props}
+        ref={inputRef}
         placeholder=" "
         value={value}
         onChangeText={setValue}
@@ -44,9 +46,10 @@ const Input: React.FC<InputProps> = ({
 
       <Text
         className={cn(
-          `absolute text-xs left-[13px] top-1.5 pointer-events-none text-gray-700 transition-all`,
-          !value && 'top-3.5 text-base',
+          `absolute text-xs left-[13px] top-1.5 text-gray-700 transition-all`,
+          !value && 'top-4 text-base',
         )}
+        onPress={() => inputRef.current?.focus()}
       >
         {placeholder}
       </Text>
