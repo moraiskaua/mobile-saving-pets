@@ -36,7 +36,7 @@ const Input: React.FC<InputProps> = ({
         onChangeText={setValue}
         secureTextEntry={!showPassword && secureTextEntry}
         className={cn(
-          'outline-none bg-white rounded-lg border border-gray-500 px-3 h-[56px] text-gray-800 w-full pt-4',
+          'outline-none bg-white rounded-lg border border-gray-500 px-3 h-14 text-gray-800 w-full pt-4',
           error && 'border-red-900',
           className,
         )}
