@@ -1,5 +1,6 @@
 import { View, Text, SafeAreaView, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Input from '../../components/Input';
 
 interface LoginScreenProps {}
 
@@ -19,6 +20,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({}) => {
 
       <View className="h-full items-center pt-20">
         <Text className="text-3xl font-bold">Fazer Login</Text>
+
+        <View className="w-full p-3.5">
+          <Input placeholder="Email" />
+          <Input placeholder="Senha" secureTextEntry />
+        </View>
       </View>
     </SafeAreaView>
   );

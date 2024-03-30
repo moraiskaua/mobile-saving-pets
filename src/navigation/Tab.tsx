@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import AnimalShelterScreen from '../screens/AnimalShelterScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import Icon from 'react-native-vector-icons/FontAwesome6';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
@@ -26,7 +26,7 @@ const Tabs = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon
-              name="home"
+              name="home-outline"
               size={24}
               color={focused ? 'rgb(112, 82, 157)' : 'rgba(112, 82, 157, 0.5)'}
             />
@@ -39,7 +39,7 @@ const Tabs = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon
-              name="location-dot"
+              name="location-outline"
               size={24}
               color={focused ? 'rgb(112, 82, 157)' : 'rgba(112, 82, 157, 0.5)'}
             />
@@ -52,7 +52,7 @@ const Tabs = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon
-              name="user"
+              name="person-outline"
               size={24}
               color={focused ? 'rgb(112, 82, 157)' : 'rgba(112, 82, 157, 0.5)'}
             />
