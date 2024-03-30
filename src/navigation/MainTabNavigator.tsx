@@ -3,19 +3,10 @@ import HomeScreen from '../screens/HomeScreen';
 import AnimalShelterScreen from '../screens/AnimalShelterScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useContext } from 'react';
-import { AuthContext } from '../contexts/AuthContext';
-import LoginScreen from '../screens/LoginScreen';
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = () => {
-  const { token } = useContext(AuthContext);
-
-  if (!token) {
-    return <LoginScreen />;
-  }
-
+const MainTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false, tabBarShowLabel: false }}
@@ -63,4 +54,4 @@ const Tabs = () => {
   );
 };
 
-export default Tabs;
+export default MainTabNavigator;

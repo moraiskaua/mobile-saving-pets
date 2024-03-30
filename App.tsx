@@ -1,12 +1,16 @@
+import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import Tabs from './src/navigation/Tab';
-import { AuthProvider } from './src/contexts/AuthContext';
+import { AuthProvider, AuthContext } from './src/contexts/AuthContext';
+import MainTabNavigator from './src/navigation/MainTabNavigator';
+import AuthStackNavigator from './src/navigation/AuthStackNavigator';
 
 const App = () => {
+  const { token } = useContext(AuthContext);
+
   return (
     <AuthProvider>
       <NavigationContainer>
-        <Tabs />
+        {token ? <MainTabNavigator /> : <AuthStackNavigator />}
       </NavigationContainer>
     </AuthProvider>
   );
