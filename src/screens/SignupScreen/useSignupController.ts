@@ -8,16 +8,19 @@ import { z } from 'zod';
 type FormData = z.infer<typeof schema>;
 
 const schema = z.object({
+  name: z.string().min(1, 'Nome é obrigatório.'),
   email: z
     .string()
     .min(1, 'E-mail é obrigatório.')
     .email('Digite um e-mail válido.'),
   password: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres.'),
+  cpf: z.string().min(1, 'Cpf é obrigatório.'),
+  phone: z.string().min(1, 'Celular é obrigatório.'),
 });
 
-export const useLoginController = () => {
-  const { navigate } = useNavigation<any>();
-  const { login } = useContext(AuthContext);
+export const useSignupController = () => {
+  const { goBack, navigate } = useNavigation<any>();
+  const { signup } = useContext(AuthContext);
 
   const {
     handleSubmit,
@@ -27,17 +30,21 @@ export const useLoginController = () => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
+      cpf: '',
+      phone: '',
     },
   });
 
   const onSubmit: SubmitHandler<FormData> = data => {
-    login(data);
+    signup(data);
+    navigate('Login');
   };
 
   return {
-    navigate,
+    goBack,
     control,
     errors,
     handleSubmit,

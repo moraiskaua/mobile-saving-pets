@@ -64,7 +64,7 @@ const Input: React.FC<InputProps> = ({
       </View>
 
       {error && (
-        <View className="flex items-center -mt-4 text-red-900">
+        <View className="flex items-center -mt-3 text-red-900">
           <Text className="text-xs">{error}</Text>
         </View>
       )}
