@@ -8,7 +8,7 @@ const AnimalShelter: React.FC<AnimalShelterProps> = ({}) => {
   return (
     <SafeAreaView>
       <Header />
-      <Text>AnimalShelter</Text>
+      <Text className="text-black text-center">AnimalShelter</Text>
     </SafeAreaView>
   );
 };

@@ -8,7 +8,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   return (
     <SafeAreaView>
       <Header />
-      <Text>HomeScreen</Text>
+      <Text className="text-black text-center">HomeScreen</Text>
     </SafeAreaView>
   );
 };
