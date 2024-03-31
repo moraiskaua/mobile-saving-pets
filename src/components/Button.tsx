@@ -2,18 +2,20 @@ import React, { ReactNode } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { cn } from '../utils/cn';
+import { TouchableOpacityProps } from 'react-native-gesture-handler';
 
-interface ButtonProps {
+interface ButtonProps extends TouchableOpacityProps {
   children: ReactNode;
   variant?: 'primary' | 'secondary';
 }
 
-const Button: React.FC<ButtonProps> = ({ children, variant }) => {
+const Button: React.FC<ButtonProps> = ({ children, variant, ...props }) => {
   const isSecondary = variant === 'secondary';
 
   if (isSecondary) {
     return (
       <TouchableOpacity
+        {...props}
         className={cn(`w-full h-14 rounded-xl justify-center items-center`)}
         style={{
           borderWidth: 1,
@@ -31,7 +33,10 @@ const Button: React.FC<ButtonProps> = ({ children, variant }) => {
         colors={['#70529D', '#BE4CD0']}
         className={cn(`w-full h-14 rounded-xl`)}
       >
-        <TouchableOpacity className={cn(`h-full justify-center items-center`)}>
+        <TouchableOpacity
+          {...props}
+          className={cn(`h-full justify-center items-center`)}
+        >
           <Text className="text-white text-lg">{children}</Text>
         </TouchableOpacity>
       </LinearGradient>

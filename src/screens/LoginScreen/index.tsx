@@ -8,12 +8,14 @@ import {
 } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import { useNavigation } from '@react-navigation/native';
+import { useLoginController } from './useLoginController';
+import { Controller } from 'react-hook-form';
 
 interface LoginScreenProps {}
 
 const LoginScreen: React.FC<LoginScreenProps> = ({}) => {
-  const { navigate } = useNavigation<any>();
+  const { navigate, control, errors, handleSubmit, setValue, onSubmit } =
+    useLoginController();
 
   return (
     <SafeAreaView>
@@ -29,10 +31,37 @@ const LoginScreen: React.FC<LoginScreenProps> = ({}) => {
         <Text className="text-3xl font-bold">Fazer Login</Text>
 
         <View className="w-full p-4" style={{ gap: 20 }}>
-          <Input placeholder="Email" />
-          <Input placeholder="Senha" secureTextEntry />
+          <Controller
+            control={control}
+            name="email"
+            render={({ field }) => (
+              <Input
+                placeholder="Email"
+                autoCapitalize="none"
+                value={field.value}
+                onChangeText={value => setValue('email', value)}
+                error={errors.email?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="password"
+            render={({ field }) => (
+              <Input
+                placeholder="Senha"
+                secureTextEntry
+                value={field.value}
+                onChangeText={value => setValue('password', value)}
+                error={errors.password?.message}
+              />
+            )}
+          />
 
-          <Button variant="primary">Entrar</Button>
+          <Button variant="primary" onPress={handleSubmit(onSubmit)}>
+            Entrar
+          </Button>
+
           <View className="flex-row justify-center items-center">
             <Text className="text-black/50">Não tem uma conta? </Text>
             <TouchableOpacity onPress={() => navigate('Signup')}>
