@@ -8,12 +8,11 @@ import { AuthContext } from './contexts/AuthContext';
 interface MainProps {}
 
 const Main: React.FC<MainProps> = ({}) => {
-  const { token } = useContext(AuthContext);
+  const { signedIn } = useContext(AuthContext);
 
-  console.log(token);
   return (
     <NavigationContainer>
-      {token ? <MainTabNavigator /> : <AuthStackNavigator />}
+      {signedIn ? <MainTabNavigator /> : <AuthStackNavigator />}
     </NavigationContainer>
   );
 };

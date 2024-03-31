@@ -4,6 +4,8 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { httpClient } from '../../services/httpClient';
+import { signup } from '../../services/authService/signup';
 
 type FormData = z.infer<typeof schema>;
 
@@ -20,7 +22,6 @@ const schema = z.object({
 
 export const useSignupController = () => {
   const { goBack, navigate } = useNavigation<any>();
-  const { signup } = useContext(AuthContext);
 
   const {
     handleSubmit,
@@ -38,8 +39,8 @@ export const useSignupController = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormData> = data => {
-    signup(data);
+  const onSubmit: SubmitHandler<FormData> = async data => {
+    await signup(data);
     navigate('Login');
   };
 

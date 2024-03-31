@@ -1,67 +1,35 @@
-import { ReactNode, createContext, useState } from 'react';
-import { api } from '../utils/api';
-import { useNavigation } from '@react-navigation/native';
+import { ReactNode, createContext, useCallback, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface AuthContextType {
-  token: string | null;
-  signup: ({ name, email, password, cpf, phone }: SignupProps) => void;
-  login: ({ email, password }: LoginProps) => void;
+  signedIn: boolean;
+  login: (accessToken: string) => void;
   logout: () => void;
-}
-
-interface SignupProps {
-  name: string;
-  email: string;
-  password: string;
-  cpf: string;
-  phone: string;
-}
-
-interface LoginProps {
-  email: string;
-  password: string;
 }
 
 export const AuthContext = createContext({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(null);
+  const [signedIn, setSignedIn] = useState<boolean>(() => {
+    const storedAccessToken = AsyncStorage.getItem('accessToken');
 
-  const signup = async ({ name, email, password, cpf, phone }: SignupProps) => {
-    try {
-      await api.post('/users', {
-        name,
-        email,
-        password,
-        cpf,
-        phone,
-      });
-    } catch (error) {
-      console.error('Failed to sign up:', error);
-    }
-  };
+    return !!storedAccessToken;
+  });
 
-  const login = async ({ email, password }: LoginProps) => {
-    try {
-      const { data } = await api.post('/users/login', {
-        email,
-        password,
-      });
-      setToken(data.accessToken);
-    } catch (error) {
-      console.error('Failed to log in:', error);
-    }
-  };
+  const login = useCallback((accessToken: string) => {
+    AsyncStorage.setItem('accessToken', accessToken);
+    setSignedIn(true);
+  }, []);
 
-  const logout = () => {
-    setToken(null);
-  };
+  const logout = useCallback(() => {
+    AsyncStorage.removeItem('accessToken');
+    setSignedIn(false);
+  }, []);
 
   return (
     <AuthContext.Provider
       value={{
-        token,
-        signup,
+        signedIn,
         login,
         logout,
       }}

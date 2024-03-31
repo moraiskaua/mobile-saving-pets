@@ -1,12 +1,15 @@
 import React from 'react';
 import { AuthProvider } from './src/contexts/AuthContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Main from './src/Main';
 
 const App = () => {
   return (
-    <AuthProvider>
-      <Main />
-    </AuthProvider>
+    <GestureHandlerRootView>
+      <AuthProvider>
+        <Main />
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 };
 
