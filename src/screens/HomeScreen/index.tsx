@@ -1,14 +1,31 @@
-import { Text } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../components/Header';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { useHomeController } from './useHomeController';
+import ReportCard from '../../components/ReportCard';
 
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
+  const tabHeight = useBottomTabBarHeight();
+  const { reports } = useHomeController();
+
   return (
     <SafeAreaView>
       <Header />
-      <Text className="text-black text-center">HomeScreen</Text>
+
+      <View className="h-full p-3">
+        {reports.length > 0 ? (
+          <ReportCard
+            reports={reports}
+            onAction={() => {}}
+            onDelete={() => {}}
+          />
+        ) : (
+          <></>
+        )}
+      </View>
     </SafeAreaView>
   );
 };

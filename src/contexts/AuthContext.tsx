@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useCallback, useState } from 'react';
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface AuthContextType {
@@ -10,19 +16,28 @@ interface AuthContextType {
 export const AuthContext = createContext({} as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [signedIn, setSignedIn] = useState<boolean>(() => {
-    const storedAccessToken = AsyncStorage.getItem('accessToken');
+  const [signedIn, setSignedIn] = useState<boolean>(false);
 
-    return !!storedAccessToken;
-  });
+  useEffect(() => {
+    const checkSignInStatus = async () => {
+      try {
+        const storedAccessToken = await AsyncStorage.getItem('accessToken');
+        setSignedIn(!!storedAccessToken);
+      } catch (error) {
+        console.error('Error checking sign-in status:', error);
+      }
+    };
 
-  const login = useCallback((accessToken: string) => {
-    AsyncStorage.setItem('accessToken', accessToken);
+    checkSignInStatus();
+  }, []);
+
+  const login = useCallback(async (accessToken: string) => {
+    await AsyncStorage.setItem('accessToken', accessToken);
     setSignedIn(true);
   }, []);
 
-  const logout = useCallback(() => {
-    AsyncStorage.removeItem('accessToken');
+  const logout = useCallback(async () => {
+    await AsyncStorage.removeItem('accessToken');
     setSignedIn(false);
   }, []);
 
