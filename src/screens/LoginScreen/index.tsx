@@ -28,7 +28,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({}) => {
       </ImageBackground>
 
       <View className="h-full items-center pt-7">
-        <Text className="text-3xl font-bold">Fazer Login</Text>
+        <Text className="text-3xl font-bold text-gray-700">Fazer Login</Text>
 
         <View className="w-full p-4" style={{ gap: 20 }}>
           <Controller
