@@ -58,14 +58,18 @@ const Input: React.FC<InputProps> = ({
             className="absolute right-3 top-1/2"
             style={{ transform: [{ translateY: -12 }] }}
           >
-            <Icon name={showPassword ? 'eye-off' : 'eye'} size={24} />
+            <Icon
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={22}
+              color="#70529D"
+            />
           </TouchableOpacity>
         )}
       </View>
 
       {error && (
-        <View className="flex items-center -mt-3 text-red-900">
-          <Text className="text-xs">{error}</Text>
+        <View className="flex items-center -mt-3">
+          <Text className="text-xs text-red-900">{error}</Text>
         </View>
       )}
     </>
