@@ -1,5 +1,4 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { View, Text } from 'react-native';
 import MainTabNavigator from './navigation/MainTabNavigator';
 import AuthStackNavigator from './navigation/AuthStackNavigator';
 import { useContext } from 'react';
