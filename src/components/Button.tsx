@@ -9,7 +9,12 @@ interface ButtonProps extends TouchableOpacityProps {
   variant?: 'primary' | 'secondary';
 }
 
-const Button: React.FC<ButtonProps> = ({ children, variant, ...props }) => {
+const Button: React.FC<ButtonProps> = ({
+  children,
+  variant,
+  className,
+  ...props
+}) => {
   const isSecondary = variant === 'secondary';
 
   if (isSecondary) {
