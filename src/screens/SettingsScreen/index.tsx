@@ -6,19 +6,30 @@ import Input from '../../components/Input';
 import { useSettingsController } from './useSettingsController';
 import { formatPhone } from '../../utils/formaters';
 import Icon from 'react-native-vector-icons/Ionicons';
+import IconFeather from 'react-native-vector-icons/Feather';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Button from '../../components/Button';
 
 interface SettingsScreenProps {}
 
 const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
-  const { control, errors, handleSubmit, setValue, logout } =
-    useSettingsController();
+  const {
+    user,
+    editionMode,
+    control,
+    errors,
+    handleSubmit,
+    setValue,
+    toggleEditionMode,
+    logout,
+  } = useSettingsController();
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1">
       <Header />
-      <View className="p-3">
-        <View className="h-full p-2 rounded-xl bg-white relative">
+
+      <View className="flex-1 p-3">
+        <View className="p-2.5 rounded-xl bg-white relative">
           <TouchableOpacity
             className="absolute right-1.5 top-1.5"
             onPress={logout}
@@ -28,12 +39,16 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
 
           <View className="items-center" style={{ gap: 16 }}>
             <Image
-              source={require('../../assets/person.png')}
+              source={
+                user?.image
+                  ? { uri: user.image }
+                  : require('../../assets/person.png')
+              }
               resizeMode="contain"
               className="h-32"
             />
 
-            <View className="w-full" style={{ gap: 8 }}>
+            <View className="w-full" style={{ gap: 10 }}>
               <Controller
                 control={control}
                 name="name"
@@ -64,34 +79,61 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                 )}
               />
 
-              <Controller
-                control={control}
-                name="password"
-                render={({ field }) => (
-                  <Input
-                    placeholder="Senha"
-                    autoCapitalize="none"
-                    secureTextEntry
-                    value={field.value}
-                    onChangeText={value => setValue('password', value)}
-                    error={errors.password?.message}
+              <View className="flex-row space-x-2.5">
+                <View className="flex-1">
+                  <Controller
+                    control={control}
+                    name="password"
+                    render={({ field }) => (
+                      <Input
+                        placeholder="Senha"
+                        autoCapitalize="none"
+                        secureTextEntry
+                        value={field.value}
+                        onChangeText={value => setValue('password', value)}
+                        error={errors.password?.message}
+                      />
+                    )}
                   />
-                )}
-              />
-              <Controller
-                control={control}
-                name="newPassword"
-                render={({ field }) => (
-                  <Input
-                    placeholder="Nova Senha"
-                    autoCapitalize="none"
-                    secureTextEntry
-                    value={field.value}
-                    onChangeText={value => setValue('newPassword', value)}
-                    error={errors.password?.message}
+                </View>
+                <View className="flex-1">
+                  <Controller
+                    control={control}
+                    name="newPassword"
+                    render={({ field }) => (
+                      <Input
+                        placeholder="Nova Senha"
+                        autoCapitalize="none"
+                        secureTextEntry
+                        value={field.value}
+                        onChangeText={value => setValue('newPassword', value)}
+                        error={errors.password?.message}
+                      />
+                    )}
                   />
+                </View>
+              </View>
+
+              <View className="flex-row mt-3 space-x-3">
+                {editionMode ? (
+                  <>
+                    <View className="flex-1">
+                      <Button variant="secondary" onPress={toggleEditionMode}>
+                        <Text>Cancelar</Text>
+                      </Button>
+                    </View>
+                    <View className="flex-1">
+                      <Button variant="primary">
+                        <Text>Salvar</Text>
+                      </Button>
+                    </View>
+                  </>
+                ) : (
+                  <Button onPress={toggleEditionMode}>
+                    <Text>Editar Perfil</Text>
+                  </Button>
                 )}
-              />
+              </View>
             </View>
           </View>
         </View>
