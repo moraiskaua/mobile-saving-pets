@@ -4,6 +4,8 @@ import { TypeOfStatus } from '../entities/types/TypeOfStatus';
 import Icon from 'react-native-vector-icons/Feather';
 import { format } from 'date-fns';
 import Button from './Button';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import Empty from './Empty';
 
 interface ReportCardProps {
   reports: {
@@ -24,11 +26,18 @@ const ReportCard: React.FC<ReportCardProps> = ({
   onAction,
   onDelete,
 }) => {
+  const tabHeight = useBottomTabBarHeight();
+
   return (
     <FlatList
       data={reports}
       keyExtractor={report => report.id}
-      contentContainerStyle={{ gap: 10 }}
+      contentContainerStyle={{
+        gap: 8,
+        paddingBottom: tabHeight,
+        margin: 18,
+      }}
+      ListEmptyComponent={Empty}
       renderItem={({ item }) => (
         <View className="bg-white p-4 rounded-2xl">
           <Image
@@ -37,7 +46,7 @@ const ReportCard: React.FC<ReportCardProps> = ({
           />
 
           <View className="flex-row justify-between items-center mt-4">
-            <Text className="text-black">Denúncia: {item.type}</Text>
+            <Text className="text-black font-bold">Denúncia: {item.type}</Text>
 
             <View
               style={{
