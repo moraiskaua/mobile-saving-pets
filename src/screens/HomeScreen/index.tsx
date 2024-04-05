@@ -8,8 +8,8 @@ import { Report } from '../../entities/Report';
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
-  // const { reports } = useHomeController();
-  const reports: Report[] = [];
+  const { reports } = useHomeController();
+  // const reports: Report[] = [];
 
   return (
     <SafeAreaView className="flex-1">

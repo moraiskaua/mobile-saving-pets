@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/Feather';
 import { format } from 'date-fns';
 import Button from './Button';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import Empty from './Empty';
 
 interface ReportCardProps {
   reports: {
@@ -34,10 +33,9 @@ const ReportCard: React.FC<ReportCardProps> = ({
       keyExtractor={report => report.id}
       contentContainerStyle={{
         gap: 8,
-        paddingBottom: tabHeight,
+        paddingBottom: tabHeight + 350,
         margin: 18,
       }}
-      ListEmptyComponent={Empty}
       renderItem={({ item }) => (
         <View className="bg-white p-4 rounded-2xl">
           <Image
