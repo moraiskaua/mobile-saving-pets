@@ -14,7 +14,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   report,
   onClose,
 }) => {
-  const { handleDeleteReport } = useDeleteModalController();
+  const { handleDeleteReport } = useDeleteModalController(report, onClose);
 
   return (
     <Modal
@@ -35,13 +35,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
               </Button>
             </View>
             <View className="w-32">
-              <Button
-                variant="primary"
-                onPress={() => {
-                  handleDeleteReport(report.id);
-                  onClose();
-                }}
-              >
+              <Button variant="primary" onPress={handleDeleteReport}>
                 <Text>Sim</Text>
               </Button>
             </View>

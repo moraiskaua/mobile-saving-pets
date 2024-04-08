@@ -1,22 +1,17 @@
 import { useEffect, useState } from 'react';
 import { reportsService } from '../../services/reportsService';
 import { Report } from '../../entities/Report';
+import { useReports } from '../../helpers/useReports';
 
 export const useHomeController = () => {
-  const [reports, setReports] = useState<Report[]>({} as Report[]);
+  // const [reports, setReports] = useState<Report[]>({} as Report[]);
 
-  useEffect(() => {
-    const fetchReports = async () => {
-      try {
-        const response = await reportsService.getAll();
-        setReports(response);
-      } catch (error) {
-        console.error('Error fetching reports:', error);
-      }
-    };
+  const {
+    reports,
+    isFetching,
+    isLoading: isInitialLoading,
+    refetch,
+  } = useReports();
 
-    fetchReports();
-  }, []);
-
-  return { reports };
+  return { reports, isFetching, isInitialLoading, refetch };
 };
