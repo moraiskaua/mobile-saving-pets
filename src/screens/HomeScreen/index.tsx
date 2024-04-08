@@ -3,17 +3,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../components/Header';
 import { useHomeController } from './useHomeController';
 import ReportCard from '../../components/ReportCard';
-import { Report } from '../../entities/Report';
+import Fab from '../../components/Fab';
 
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
-  const { reports, isFetching, isInitialLoading, refetch } =
-    useHomeController();
-  // const reports: Report[] = [];
+  const { reports, isFetching, isInitialLoading } = useHomeController();
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 relative">
       <Header />
 
       {!isInitialLoading && (
@@ -35,6 +33,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
           )}
         </View>
       )}
+
+      <Fab />
     </SafeAreaView>
   );
 };
