@@ -32,15 +32,15 @@ const ReportCard: React.FC<ReportCardProps> = ({
       data={reports}
       keyExtractor={report => report.id}
       contentContainerStyle={{
-        gap: 8,
-        paddingBottom: tabHeight + 350,
+        gap: 18,
+        paddingBottom: tabHeight,
         margin: 18,
       }}
       renderItem={({ item }) => (
         <View className="bg-white p-4 rounded-2xl">
           <Image
-            source={{ uri: item.images[2] }}
-            className="h-1/2 rounded-t-2xl object-cover"
+            source={{ uri: item.images[1] }}
+            className="h-[200px] rounded-t-2xl object-cover"
           />
 
           <View className="flex-row justify-between items-center mt-4">
