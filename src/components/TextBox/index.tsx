@@ -25,7 +25,6 @@ const TextBox: React.FC<TextBoxProps> = ({
       {...props}
       value={value}
       onChangeText={handleChangeText}
-      numberOfLines={6}
       placeholder=" "
       className={cn(
         'relative outline-none rounded-xl bg-gray-200/60 px-3 text-gray-800 w-full pt-4',
@@ -33,7 +32,6 @@ const TextBox: React.FC<TextBoxProps> = ({
         className,
       )}
       textAlignVertical="top"
-      multiline
     />
   );
 };
