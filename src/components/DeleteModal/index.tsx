@@ -23,7 +23,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
       onRequestClose={onClose}
       transparent
     >
-      <View className="flex-1 justify-center items-center bg-black/50">
+      <View className="flex-1 justify-center items-center bg-black/30">
         <View className="bg-white p-5 rounded-xl items-center">
           <Text className="font-bold text-black">
             Tem certeza que deseja deletar a denúncia?
