@@ -17,11 +17,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
       {!isInitialLoading && (
         <View className="flex-1">
           {reports.length > 0 ? (
-            <ReportCard
-              reports={reports}
-              onAction={() => {}}
-              onDelete={() => {}}
-            />
+            <ReportCard reports={reports} />
           ) : (
             <View className="flex-1 justify-center items-center">
               <Image source={require('../../assets/no-reports.png')} />

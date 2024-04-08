@@ -18,8 +18,6 @@ interface ReportCardProps {
     location: string;
     createdAt: string;
   }[];
-  onAction: () => void;
-  onDelete: (id: string) => void;
 }
 
 const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
@@ -45,8 +43,8 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
 
           <View className="bg-white p-4 rounded-2xl">
             <Image
-              source={{ uri: item.images[1] }}
-              className="h-[200px] rounded-t-2xl object-cover"
+              source={{ uri: item.images[0] }}
+              className="h-[180px] rounded-t-2xl object-cover"
             />
 
             <View className="flex-row justify-between items-center mt-4">
@@ -61,7 +59,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
                   borderRadius: 2,
                 }}
               >
-                <Text className="text-[#70529D] px-1 font-semibold">
+                <Text className="text-[#70529D] px-2.5 py-0.5 font-semibold text-xs">
                   {item.status === 'EM_ABERTO' && 'EM ABERTO'}
                   {item.status === 'EM_ANDAMENTO' && 'EM ANDAMENTO'}
                   {item.status === 'ATENDIDO' && 'ATENDIDO'}
