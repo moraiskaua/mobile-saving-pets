@@ -2,8 +2,16 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useState } from 'react';
 
 export const useReportCardController = () => {
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] =
+    useState<boolean>(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
   const tabHeight = useBottomTabBarHeight();
 
-  return { isModalVisible, tabHeight, setIsModalVisible };
+  return {
+    isDeleteModalVisible,
+    isEditModalVisible,
+    tabHeight,
+    setIsDeleteModalVisible,
+    setIsEditModalVisible,
+  };
 };

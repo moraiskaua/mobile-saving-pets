@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import Button from '../Button';
 import DeleteModal from '../DeleteModal';
 import { useReportCardController } from './useReportCardController';
+import EditModal from '../EditModal';
 
 interface ReportCardProps {
   reports: {
@@ -21,8 +22,13 @@ interface ReportCardProps {
 }
 
 const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
-  const { tabHeight, isModalVisible, setIsModalVisible } =
-    useReportCardController();
+  const {
+    tabHeight,
+    isDeleteModalVisible,
+    isEditModalVisible,
+    setIsEditModalVisible,
+    setIsDeleteModalVisible,
+  } = useReportCardController();
 
   return (
     <FlatList
@@ -36,9 +42,15 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
       renderItem={({ item }) => (
         <>
           <DeleteModal
-            visible={isModalVisible}
+            visible={isDeleteModalVisible}
             report={item}
-            onClose={() => setIsModalVisible(false)}
+            onClose={() => setIsDeleteModalVisible(false)}
+          />
+
+          <EditModal
+            visible={isEditModalVisible}
+            report={item}
+            onClose={() => setIsEditModalVisible(false)}
           />
 
           <View className="bg-white p-4 rounded-2xl">
@@ -81,14 +93,17 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
 
             <View className="flex-row mt-3.5 space-x-3">
               <View className="flex-1">
-                <Button variant="primary">
+                <Button
+                  variant="primary"
+                  onPress={() => setIsEditModalVisible(true)}
+                >
                   <Icon name="edit-2" size={18} />
                 </Button>
               </View>
               <View className="flex-1">
                 <Button
                   variant="secondary"
-                  onPress={() => setIsModalVisible(true)}
+                  onPress={() => setIsDeleteModalVisible(true)}
                 >
                   <Icon name="trash-2" size={20} />
                 </Button>
