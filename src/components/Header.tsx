@@ -1,9 +1,12 @@
 import { Image, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { cn } from '../utils/cn';
 
-interface HeaderProps {}
+interface HeaderProps {
+  size?: 'small' | 'default';
+}
 
-const Header: React.FC<HeaderProps> = ({}) => {
+const Header: React.FC<HeaderProps> = ({ size = 'default' }) => {
   return (
     <LinearGradient
       start={{ x: 0.0, y: 0.25 }}
@@ -11,8 +14,17 @@ const Header: React.FC<HeaderProps> = ({}) => {
       colors={['#70529D', '#BE4CD0']}
       className="rounded-b-[30px]"
     >
-      <View className="h-40 justify-center items-center">
-        <Image source={require('../assets/logo.png')} />
+      <View
+        className={cn(
+          `h-40 justify-center items-center`,
+          size === 'small' && 'h-16',
+        )}
+      >
+        <Image
+          source={require('../assets/logo.png')}
+          className={cn('h-40', size === 'small' && 'h-12')}
+          resizeMode="contain"
+        />
       </View>
     </LinearGradient>
   );

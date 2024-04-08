@@ -32,7 +32,7 @@ const EditModal: React.FC<EditModalProps> = ({ visible, report, onClose }) => {
       onRequestClose={onClose}
     >
       <SafeAreaView className="flex-1">
-        <Header />
+        <Header size="small" />
 
         <View className="p-3 pr-0">
           <FlatList
@@ -63,7 +63,7 @@ const EditModal: React.FC<EditModalProps> = ({ visible, report, onClose }) => {
           />
         </View>
 
-        <View className="p-3.5 gap-4">
+        <View className="p-3.5 gap-3.5">
           <View>
             <Text className="text-black font-bold text-lg">Denúncia:</Text>
             <Select options={options} value={report.type} />
