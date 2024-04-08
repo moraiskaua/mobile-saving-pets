@@ -20,11 +20,7 @@ const Select: React.FC<SelectProps> = ({ options, value }) => {
     <View>
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
-        className="p-3 rounded-lg flex-row justify-between items-center"
-        style={{
-          borderWidth: 1,
-          borderColor: 'rgba(0, 0, 0, 0.5)',
-        }}
+        className="p-3 rounded-xl bg-gray-200/60 flex-row justify-between items-center"
       >
         <Text>{selected ?? value}</Text>
         <Icon name="chevron-down" size={20} />

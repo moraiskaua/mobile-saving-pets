@@ -4,6 +4,7 @@ import { Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Select from '../Select';
 import { useEditModalController } from './useEditModalController';
+import TextBox from '../TextBox';
 
 interface EditModalProps {
   visible: boolean;
@@ -52,8 +53,15 @@ const EditModal: React.FC<EditModalProps> = ({ visible, report, onClose }) => {
         </View>
 
         <View className="p-3">
-          <Text className="text-black font-bold text-lg">Denúncia:</Text>
-          <Select options={options} value={report.type} />
+          <View>
+            <Text className="text-black font-bold text-lg">Denúncia:</Text>
+            <Select options={options} value={report.type} />
+          </View>
+
+          <View>
+            <Text className="text-black font-bold text-lg">Descrição</Text>
+            <TextBox initialValue={report.description} />
+          </View>
         </View>
       </View>
     </Modal>
