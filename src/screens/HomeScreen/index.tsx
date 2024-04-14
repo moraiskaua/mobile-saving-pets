@@ -4,15 +4,27 @@ import Header from '../../components/Header';
 import { useHomeController } from './useHomeController';
 import ReportCard from '../../components/ReportCard';
 import Fab from '../../components/Fab';
+import NewReportModal from '../../components/NewReportModal';
 
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
-  const { reports, isFetching, isInitialLoading } = useHomeController();
+  const {
+    reports,
+    isFetching,
+    isInitialLoading,
+    isNewReportModalVisible,
+    setIsNewReportModalVisible,
+  } = useHomeController();
 
   return (
     <SafeAreaView className="flex-1 relative">
       <Header />
+
+      <NewReportModal
+        visible={isNewReportModalVisible}
+        onClose={() => setIsNewReportModalVisible(false)}
+      />
 
       {!isInitialLoading && (
         <View className="flex-1">
@@ -30,7 +42,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
         </View>
       )}
 
-      <Fab />
+      <Fab onPress={() => setIsNewReportModalVisible(true)} />
     </SafeAreaView>
   );
 };

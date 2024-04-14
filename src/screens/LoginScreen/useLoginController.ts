@@ -33,8 +33,8 @@ export const useLoginController = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    const { accessToken } = await signin(data);
-    login(accessToken);
+    const { userId, accessToken } = await signin(data);
+    login(userId, accessToken);
   };
 
   return {

@@ -4,7 +4,7 @@ import { cn } from '../../utils/cn';
 
 interface TextBoxProps extends TextInputProps {
   error?: string;
-  initialValue: string;
+  initialValue?: string;
 }
 
 const TextBox: React.FC<TextBoxProps> = ({

@@ -1,4 +1,4 @@
-export const useEditModalController = () => {
+export const useEditReportModalController = () => {
   const options = [
     { value: 'ABANDONO', label: 'Abandono' },
     { value: 'AGRESSAO', label: 'Agressão' },

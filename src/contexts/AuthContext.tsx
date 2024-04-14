@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface AuthContextType {
   signedIn: boolean;
-  login: (accessToken: string) => void;
+  login: (userId: string, accessToken: string) => void;
   logout: () => void;
 }
 
@@ -31,8 +31,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkSignInStatus();
   }, []);
 
-  const login = useCallback(async (accessToken: string) => {
+  const login = useCallback(async (userId: string, accessToken: string) => {
     await AsyncStorage.setItem('accessToken', accessToken);
+    await AsyncStorage.setItem('userId', userId);
     setSignedIn(true);
   }, []);
 

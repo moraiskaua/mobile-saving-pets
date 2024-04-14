@@ -2,27 +2,28 @@ import {
   View,
   Text,
   Modal,
-  FlatList,
   TouchableOpacity,
   SafeAreaView,
+  Image,
+  FlatList,
 } from 'react-native';
-import { Report } from '../../entities/Report';
-import { Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Select from '../Select';
-import { useEditModalController } from './useEditModalController';
 import TextBox from '../TextBox';
 import Button from '../Button';
 import Header from '../Header';
+import { useNewReportModalController } from './useNewReportModalController';
 
-interface EditModalProps {
+interface NewReportModalProps {
   visible: boolean;
-  report: Report;
   onClose: () => void;
 }
 
-const EditModal: React.FC<EditModalProps> = ({ visible, report, onClose }) => {
-  const { options } = useEditModalController();
+const NewReportModal: React.FC<NewReportModalProps> = ({
+  visible,
+  onClose,
+}) => {
+  const { options, images, handleTakePhoto } = useNewReportModalController();
 
   return (
     <Modal
@@ -36,12 +37,12 @@ const EditModal: React.FC<EditModalProps> = ({ visible, report, onClose }) => {
 
         <View className="p-3 pr-0">
           <FlatList
-            data={report.images}
+            data={images}
             horizontal
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={{ gap: 10 }}
             ListHeaderComponent={() => (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handleTakePhoto}>
                 <View
                   className="h-32 w-44 rounded-xl bg-gray-200 items-center justify-center"
                   style={{
@@ -66,21 +67,17 @@ const EditModal: React.FC<EditModalProps> = ({ visible, report, onClose }) => {
         <View className="p-3.5 gap-3.5">
           <View>
             <Text className="text-black font-bold text-lg">Denúncia:</Text>
-            <Select options={options} value={report.type} />
+            <Select options={options} value={options[0].value} />
           </View>
 
           <View>
             <Text className="text-black font-bold text-lg">Descrição:</Text>
-            <TextBox
-              initialValue={report.description}
-              numberOfLines={6}
-              multiline
-            />
+            <TextBox numberOfLines={6} multiline />
           </View>
 
           <View>
             <Text className="text-black font-bold text-lg">Localização:</Text>
-            <TextBox initialValue={report.location} />
+            <TextBox />
           </View>
 
           <View className="flex-row mt-3.5 space-x-3">
@@ -101,4 +98,4 @@ const EditModal: React.FC<EditModalProps> = ({ visible, report, onClose }) => {
   );
 };
 
-export default EditModal;
+export default NewReportModal;

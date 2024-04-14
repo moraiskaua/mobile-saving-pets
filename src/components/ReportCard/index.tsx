@@ -6,7 +6,8 @@ import { format } from 'date-fns';
 import Button from '../Button';
 import DeleteModal from '../DeleteModal';
 import { useReportCardController } from './useReportCardController';
-import EditModal from '../EditModal';
+import NewReportModal from '../NewReportModal';
+import EditReportModal from '../EditReportModal';
 
 interface ReportCardProps {
   reports: {
@@ -25,8 +26,8 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
   const {
     tabHeight,
     isDeleteModalVisible,
-    isEditModalVisible,
-    setIsEditModalVisible,
+    isEditReportModalVisible,
+    setIsEditReportModalVisible,
     setIsDeleteModalVisible,
   } = useReportCardController();
 
@@ -47,10 +48,10 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
             onClose={() => setIsDeleteModalVisible(false)}
           />
 
-          <EditModal
-            visible={isEditModalVisible}
+          <EditReportModal
+            visible={isEditReportModalVisible}
             report={item}
-            onClose={() => setIsEditModalVisible(false)}
+            onClose={() => setIsEditReportModalVisible(false)}
           />
 
           <View className="bg-white p-4 rounded-2xl">
@@ -95,7 +96,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
               <View className="flex-1">
                 <Button
                   variant="primary"
-                  onPress={() => setIsEditModalVisible(true)}
+                  onPress={() => setIsEditReportModalVisible(true)}
                 >
                   <Icon name="edit-2" size={18} />
                 </Button>

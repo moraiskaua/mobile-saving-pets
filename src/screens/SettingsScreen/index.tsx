@@ -6,7 +6,6 @@ import Input from '../../components/Input';
 import { useSettingsController } from './useSettingsController';
 import { formatPhone } from '../../utils/formaters';
 import Icon from 'react-native-vector-icons/Ionicons';
-import IconFeather from 'react-native-vector-icons/Feather';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Button from '../../components/Button';
 

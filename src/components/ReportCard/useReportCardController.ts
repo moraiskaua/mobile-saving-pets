@@ -4,14 +4,15 @@ import { useState } from 'react';
 export const useReportCardController = () => {
   const [isDeleteModalVisible, setIsDeleteModalVisible] =
     useState<boolean>(false);
-  const [isEditModalVisible, setIsEditModalVisible] = useState<boolean>(false);
+  const [isEditReportModalVisible, setIsEditReportModalVisible] =
+    useState<boolean>(false);
   const tabHeight = useBottomTabBarHeight();
 
   return {
     isDeleteModalVisible,
-    isEditModalVisible,
+    isEditReportModalVisible,
     tabHeight,
     setIsDeleteModalVisible,
-    setIsEditModalVisible,
+    setIsEditReportModalVisible,
   };
 };
