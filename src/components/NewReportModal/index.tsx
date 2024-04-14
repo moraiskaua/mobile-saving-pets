@@ -13,6 +13,7 @@ import TextBox from '../TextBox';
 import Button from '../Button';
 import Header from '../Header';
 import { useNewReportModalController } from './useNewReportModalController';
+import CameraScreen from '../CameraScreen';
 
 interface NewReportModalProps {
   visible: boolean;
@@ -23,7 +24,13 @@ const NewReportModal: React.FC<NewReportModalProps> = ({
   visible,
   onClose,
 }) => {
-  const { options, images, handleTakePhoto } = useNewReportModalController();
+  const {
+    isCameraVisible,
+    options,
+    images,
+    setIsCameraVisible,
+    handleTakePhoto,
+  } = useNewReportModalController();
 
   return (
     <Modal
@@ -35,6 +42,11 @@ const NewReportModal: React.FC<NewReportModalProps> = ({
       <SafeAreaView className="flex-1">
         <Header size="small" />
 
+        <CameraScreen
+          visible={isCameraVisible}
+          onClose={() => setIsCameraVisible(false)}
+        />
+
         <View className="p-3 pr-0">
           <FlatList
             data={images}
@@ -42,7 +54,7 @@ const NewReportModal: React.FC<NewReportModalProps> = ({
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={{ gap: 10 }}
             ListHeaderComponent={() => (
-              <TouchableOpacity onPress={handleTakePhoto}>
+              <TouchableOpacity onPress={() => setIsCameraVisible(true)}>
                 <View
                   className="h-32 w-44 rounded-xl bg-gray-200 items-center justify-center"
                   style={{

@@ -1,7 +1,10 @@
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 
 export const useNewReportModalController = () => {
+  const [isCameraVisible, setIsCameraVisible] = useState<boolean>(false);
   const [images, setImages] = useState<string[]>([]);
+  const { navigate } = useNavigation<any>();
 
   const options = [
     { value: 'ABANDONO', label: 'Abandono' },
@@ -11,7 +14,15 @@ export const useNewReportModalController = () => {
     { value: 'OUTROS', label: 'Outros' },
   ];
 
-  const handleTakePhoto = () => {};
+  const handleTakePhoto = () => {
+    // navigate('Camera');
+  };
 
-  return { options, images, handleTakePhoto };
+  return {
+    options,
+    images,
+    isCameraVisible,
+    setIsCameraVisible,
+    handleTakePhoto,
+  };
 };
