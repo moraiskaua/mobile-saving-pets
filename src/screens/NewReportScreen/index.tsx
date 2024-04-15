@@ -15,7 +15,7 @@ import CameraScreen from '../../components/CameraScreen';
 import FastImage from 'react-native-fast-image';
 import { Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
-import { z } from 'zod';
+import { TypeOfAbuse } from '../../entities/types/TypeOfAbuse';
 
 interface NewReportScreenProps {}
 
@@ -73,7 +73,7 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
         />
       </View>
 
-      <View className="p-3.5 gap-3.5">
+      <View className="p-3.5 gap-3">
         <View>
           <Text className="text-black font-bold text-lg">Denúncia:</Text>
           <Controller
@@ -83,6 +83,7 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
               <Select
                 options={options}
                 value={field.value}
+                onChange={value => setValue('type', value as TypeOfAbuse)}
                 error={errors.type?.message}
               />
             )}
@@ -101,6 +102,7 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
                 numberOfLines={6}
                 multiline
                 error={errors.description?.message}
+                isRow
               />
             )}
           />
@@ -116,6 +118,7 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
                 value={field.value}
                 onChangeText={value => setValue('location', value)}
                 error={errors.location?.message}
+                isRow
               />
             )}
           />
