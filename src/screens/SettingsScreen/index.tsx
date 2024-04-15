@@ -1,4 +1,4 @@
-import { View, Image, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../components/Header';
 import { Controller } from 'react-hook-form';
@@ -8,6 +8,7 @@ import { formatPhone } from '../../utils/formaters';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Button from '../../components/Button';
+import FastImage from 'react-native-fast-image';
 
 interface SettingsScreenProps {}
 
@@ -17,10 +18,11 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
     editionMode,
     control,
     errors,
-    handleSubmit,
     setValue,
     toggleEditionMode,
     logout,
+    handleSubmit,
+    onSubmit,
   } = useSettingsController();
 
   return (
@@ -37,14 +39,14 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
           </TouchableOpacity>
 
           <View className="items-center" style={{ gap: 16 }}>
-            <Image
+            <FastImage
               source={
                 user?.image
                   ? { uri: user.image }
                   : require('../../assets/person.png')
               }
-              resizeMode="contain"
-              className="h-32"
+              resizeMode="cover"
+              className="h-32 w-32 rounded-full"
             />
 
             <View className="w-full" style={{ gap: 10 }}>
@@ -88,6 +90,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                         placeholder="Senha"
                         autoCapitalize="none"
                         secureTextEntry
+                        isRow
                         value={field.value}
                         onChangeText={value => setValue('password', value)}
                         error={errors.password?.message}
@@ -104,6 +107,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                         placeholder="Nova Senha"
                         autoCapitalize="none"
                         secureTextEntry
+                        isRow
                         value={field.value}
                         onChangeText={value => setValue('newPassword', value)}
                         error={errors.password?.message}
@@ -122,7 +126,10 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                       </Button>
                     </View>
                     <View className="flex-1">
-                      <Button variant="primary">
+                      <Button
+                        variant="primary"
+                        onPress={handleSubmit(onSubmit)}
+                      >
                         <Text>Salvar</Text>
                       </Button>
                     </View>

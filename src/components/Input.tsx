@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/Feather';
 
 interface InputProps extends TextInputProps {
   error?: string;
+  isRow?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -18,6 +19,7 @@ const Input: React.FC<InputProps> = ({
   error,
   className,
   secureTextEntry,
+  isRow = false,
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -68,7 +70,7 @@ const Input: React.FC<InputProps> = ({
       </View>
 
       {error && (
-        <View className="flex items-center -mt-3">
+        <View className={cn('flex items-center -mt-3', isRow && '-mt-0')}>
           <Text className="text-xs text-red-900">{error}</Text>
         </View>
       )}

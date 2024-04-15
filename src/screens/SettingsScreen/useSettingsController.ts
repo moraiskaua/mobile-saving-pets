@@ -1,9 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAuth } from '../../hooks/useAuth';
 import { useState } from 'react';
 import { User } from '../../entities/User';
+import { useMe } from '../../helpers/useMe';
+import { userService } from '../../services/userService';
 
 type FormData = z.infer<typeof schema>;
 
@@ -11,13 +13,15 @@ const schema = z.object({
   image: z.string().min(1, 'Imagem é obrigatória.'),
   name: z.string().min(1, 'Nome é obrigatório.'),
   phone: z.string().min(1, 'Celular é obrigatório.'),
-  password: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres.'),
-  newPassword: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres.'),
+  password: z.string().min(8, 'Mínimo 8 caracteres.'),
+  newPassword: z.string().min(8, 'Mínimo 8 caracteres.'),
 });
 
 export const useSettingsController = () => {
   const [editionMode, setEditionMode] = useState<boolean>(false);
-  const [user, setUser] = useState<User>();
+  const { userId } = useAuth();
+  const { user } = useMe(userId);
+  console.log(user);
 
   const toggleEditionMode = () => setEditionMode(!editionMode);
 
@@ -29,9 +33,9 @@ export const useSettingsController = () => {
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      image: '',
-      name: '',
-      phone: '',
+      image: user?.image,
+      name: user?.name,
+      phone: user?.phone,
       password: '',
       newPassword: '',
     },
@@ -39,14 +43,19 @@ export const useSettingsController = () => {
 
   const { logout } = useAuth();
 
+  const onSubmit: SubmitHandler<FormData> = async data => {
+    console.log(data);
+  };
+
   return {
     user,
     editionMode,
     control,
     errors,
-    handleSubmit,
     setValue,
     logout,
     toggleEditionMode,
+    handleSubmit,
+    onSubmit,
   };
 };
