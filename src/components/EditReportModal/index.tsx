@@ -16,6 +16,7 @@ import { useEditReportModalController } from './useEditReportModalController';
 import { Controller } from 'react-hook-form';
 import { Report } from '../../entities/Report';
 import { TypeOfAbuse } from '../../entities/types/TypeOfAbuse';
+import { TypeOfStatus } from '../../entities/types/TypeOfStatus';
 
 interface EditReportModalProps {
   visible: boolean;
@@ -28,8 +29,15 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
   report,
   onClose,
 }) => {
-  const { options, control, errors, setValue, handleSubmit, onSubmit } =
-    useEditReportModalController(report, onClose);
+  const {
+    typeOptions,
+    statusOptions,
+    control,
+    errors,
+    setValue,
+    handleSubmit,
+    onSubmit,
+  } = useEditReportModalController(report, onClose);
 
   return (
     <Modal
@@ -64,7 +72,23 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
           />
         </View>
 
-        <View className="p-3.5 gap-3.5">
+        <View className="p-3.5 gap-3">
+          <View>
+            <Text className="text-black font-bold text-lg">Status:</Text>
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  options={statusOptions}
+                  value={field.value}
+                  onChange={value => setValue('status', value as TypeOfStatus)}
+                  error={errors.type?.message}
+                />
+              )}
+            />
+          </View>
+
           <View>
             <Text className="text-black font-bold text-lg">Denúncia:</Text>
             <Controller
@@ -72,7 +96,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
               control={control}
               render={({ field }) => (
                 <Select
-                  options={options}
+                  options={typeOptions}
                   value={field.value}
                   onChange={value => setValue('type', value as TypeOfAbuse)}
                   error={errors.type?.message}

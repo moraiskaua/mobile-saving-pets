@@ -18,13 +18,15 @@ const Select: React.FC<SelectProps> = ({ options, value, error, onChange }) => {
   const { modalVisible, selected, handleSelect, setModalVisible } =
     useSelectController();
 
+  const selectedOption = options.find(option => option.value === value);
+
   return (
     <View>
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
         className="p-3 rounded-xl bg-gray-200/60 flex-row justify-between items-center"
       >
-        <Text>{selected ?? value}</Text>
+        <Text>{selectedOption ? selectedOption.label : value}</Text>
         <Icon name="chevron-down" size={20} />
       </TouchableOpacity>
 
@@ -49,7 +51,7 @@ const Select: React.FC<SelectProps> = ({ options, value, error, onChange }) => {
                 <TouchableOpacity
                   onPress={() => handleSelect(item.value, onChange)}
                 >
-                  <Text className="py-2">{item.label.toUpperCase()}</Text>
+                  <Text className="py-2">{item.label}</Text>
                 </TouchableOpacity>
               )}
             />

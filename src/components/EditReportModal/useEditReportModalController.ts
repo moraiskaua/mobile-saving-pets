@@ -22,12 +22,18 @@ export const useEditReportModalController = (
 ) => {
   const queryClient = useQueryClient();
 
-  const options = [
+  const typeOptions = [
     { value: 'ABANDONO', label: 'Abandono' },
     { value: 'AGRESSAO', label: 'Agressão' },
     { value: 'NEGLIGENCIA', label: 'Negligência' },
     { value: 'EXPLORACAO', label: 'Exploração' },
     { value: 'OUTROS', label: 'Outros' },
+  ];
+
+  const statusOptions = [
+    { value: 'EM_ABERTO', label: 'Em Aberto' },
+    { value: 'EM_ANDAMENTO', label: 'Em Andamento' },
+    { value: 'ATENDIDO', label: 'Atendido' },
   ];
 
   const {
@@ -50,5 +56,13 @@ export const useEditReportModalController = (
     }
   };
 
-  return { options, errors, control, setValue, handleSubmit, onSubmit };
+  return {
+    typeOptions,
+    statusOptions,
+    errors,
+    control,
+    setValue,
+    handleSubmit,
+    onSubmit,
+  };
 };
