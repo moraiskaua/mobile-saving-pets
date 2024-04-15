@@ -15,6 +15,7 @@ import Header from '../Header';
 import { useEditReportModalController } from './useEditReportModalController';
 import { Controller } from 'react-hook-form';
 import { Report } from '../../entities/Report';
+import { TypeOfAbuse } from '../../entities/types/TypeOfAbuse';
 
 interface EditReportModalProps {
   visible: boolean;
@@ -73,7 +74,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
                 <Select
                   options={options}
                   value={field.value}
-                  onChange={field.onChange}
+                  onChange={value => setValue('type', value as TypeOfAbuse)}
                   error={errors.type?.message}
                 />
               )}
@@ -89,8 +90,9 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
                 <TextBox
                   numberOfLines={6}
                   multiline
+                  initialValue={report.description}
                   value={field.value}
-                  onChangeText={field.onChange}
+                  onChangeText={value => setValue('description', value)}
                   error={errors.description?.message}
                 />
               )}
@@ -104,8 +106,9 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
               control={control}
               render={({ field }) => (
                 <TextBox
+                  initialValue={report.location}
                   value={field.value}
-                  onChangeText={field.onChange}
+                  onChangeText={value => setValue('location', value)}
                   error={errors.location?.message}
                 />
               )}

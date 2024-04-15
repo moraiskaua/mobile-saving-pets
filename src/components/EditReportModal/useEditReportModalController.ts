@@ -35,7 +35,7 @@ export const useEditReportModalController = (report: Report) => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    console.log(data);
+    console.log('submit: ', data);
     // reportsService.create(data);
   };
 
