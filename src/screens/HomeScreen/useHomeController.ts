@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useReports } from '../../helpers/useReports';
 
 export const useHomeController = () => {

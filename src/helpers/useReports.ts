@@ -5,7 +5,7 @@ export const useReports = () => {
   const { data, isFetching, isLoading } = useQuery({
     queryKey: ['reports'],
     queryFn: () => reportsService.getAll(),
-    staleTime: Infinity,
+    staleTime: 350,
   });
 
   return { reports: data ?? [], isFetching, isLoading };

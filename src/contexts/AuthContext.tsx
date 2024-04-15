@@ -45,6 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await AsyncStorage.removeItem('accessToken');
     await AsyncStorage.removeItem('userId');
     setSignedIn(false);
+    setUserId(null);
   }, []);
 
   return (

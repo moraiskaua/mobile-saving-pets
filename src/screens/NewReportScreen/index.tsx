@@ -15,8 +15,20 @@ import CameraScreen from '../../components/CameraScreen';
 import FastImage from 'react-native-fast-image';
 import { Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
+import { z } from 'zod';
 
 interface NewReportScreenProps {}
+
+type FormData = z.infer<typeof schema>;
+
+const schema = z.object({
+  type: z.enum(['ABANDONO', 'AGRESSAO', 'NEGLIGENCIA', 'EXPLORACAO', 'OUTROS']),
+  description: z.string().min(1, 'Descrição é obrigatória.'),
+  location: z.string().min(1, 'Localização é obrigatória.'),
+  status: z.enum(['EM_ABERTO', 'EM_ANDAMENTO', 'ATENDIDO']),
+  userId: z.string().min(1),
+  images: z.array(z.string()),
+});
 
 const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
   const {
@@ -24,9 +36,9 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
     options,
     images,
     device,
+    camera,
     control,
     errors,
-    camera,
     setValue,
     setIsCameraVisible,
     handleTakePicture,
