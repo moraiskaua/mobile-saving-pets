@@ -19,7 +19,7 @@ export const useNewReportModalController = () => {
   const handleTakePicture = async () => {
     const photo = await camera.current?.takePhoto();
     if (photo) {
-      CameraRoll.save(`file://${photo.path}`, {
+      CameraRoll.saveAsset(`file://${photo.path}`, {
         type: 'photo',
       });
       setImages([...images, `file://${photo.path}`]);
