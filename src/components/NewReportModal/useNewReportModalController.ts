@@ -1,10 +1,12 @@
-import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
+import { useRef, useState } from 'react';
+import { Camera, useCameraDevice } from 'react-native-vision-camera';
 
 export const useNewReportModalController = () => {
   const [isCameraVisible, setIsCameraVisible] = useState<boolean>(false);
   const [images, setImages] = useState<string[]>([]);
-  const { navigate } = useNavigation<any>();
+  const device = useCameraDevice('back');
+  const camera = useRef<Camera>(null);
 
   const options = [
     { value: 'ABANDONO', label: 'Abandono' },
@@ -14,15 +16,24 @@ export const useNewReportModalController = () => {
     { value: 'OUTROS', label: 'Outros' },
   ];
 
-  const handleTakePhoto = () => {
-    // navigate('Camera');
+  const handleTakePicture = async () => {
+    const photo = await camera.current?.takePhoto();
+    if (photo) {
+      CameraRoll.save(`file://${photo.path}`, {
+        type: 'photo',
+      });
+      setImages([...images, `file://${photo.path}`]);
+      setIsCameraVisible(false);
+    }
   };
 
   return {
     options,
     images,
     isCameraVisible,
+    camera,
+    device,
     setIsCameraVisible,
-    handleTakePhoto,
+    handleTakePicture,
   };
 };

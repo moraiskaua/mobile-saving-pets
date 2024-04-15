@@ -4,7 +4,6 @@ import {
   Modal,
   TouchableOpacity,
   SafeAreaView,
-  Image,
   FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -14,6 +13,7 @@ import Button from '../Button';
 import Header from '../Header';
 import { useNewReportModalController } from './useNewReportModalController';
 import CameraScreen from '../CameraScreen';
+import FastImage from 'react-native-fast-image';
 
 interface NewReportModalProps {
   visible: boolean;
@@ -28,8 +28,10 @@ const NewReportModal: React.FC<NewReportModalProps> = ({
     isCameraVisible,
     options,
     images,
+    device,
+    camera,
     setIsCameraVisible,
-    handleTakePhoto,
+    handleTakePicture,
   } = useNewReportModalController();
 
   return (
@@ -44,6 +46,9 @@ const NewReportModal: React.FC<NewReportModalProps> = ({
 
         <CameraScreen
           visible={isCameraVisible}
+          device={device}
+          camera={camera}
+          onTakePicture={handleTakePicture}
           onClose={() => setIsCameraVisible(false)}
         />
 
@@ -67,8 +72,10 @@ const NewReportModal: React.FC<NewReportModalProps> = ({
               </TouchableOpacity>
             )}
             renderItem={({ item }) => (
-              <Image
-                source={{ uri: item }}
+              <FastImage
+                source={{
+                  uri: item,
+                }}
                 className="h-32 w-44 rounded-xl"
                 resizeMode="cover"
               />
