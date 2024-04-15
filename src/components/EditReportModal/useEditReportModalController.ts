@@ -2,7 +2,8 @@ import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Report } from '../../entities/Report';
-import { useReportById } from '../../helpers/useReportById';
+import { reportsService } from '../../services/reportsService';
+import { useQueryClient } from '@tanstack/react-query';
 
 type FormData = z.infer<typeof schema>;
 
@@ -15,7 +16,12 @@ const schema = z.object({
   images: z.array(z.string()),
 });
 
-export const useEditReportModalController = (report: Report) => {
+export const useEditReportModalController = (
+  report: Report,
+  onClose: () => void,
+) => {
+  const queryClient = useQueryClient();
+
   const options = [
     { value: 'ABANDONO', label: 'Abandono' },
     { value: 'AGRESSAO', label: 'Agressão' },
@@ -35,8 +41,13 @@ export const useEditReportModalController = (report: Report) => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    console.log('submit: ', data);
-    // reportsService.create(data);
+    try {
+      const res = await reportsService.update(report.id, data);
+      queryClient.invalidateQueries({ queryKey: ['reports'] });
+      onClose();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return { options, errors, control, setValue, handleSubmit, onSubmit };

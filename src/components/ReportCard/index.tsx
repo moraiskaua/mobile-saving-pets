@@ -31,7 +31,6 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
     setIsEditReportModalVisible,
     setIsDeleteModalVisible,
   } = useReportCardController();
-  console.log(report);
 
   return (
     <>

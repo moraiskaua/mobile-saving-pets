@@ -29,7 +29,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
   onClose,
 }) => {
   const { options, control, errors, setValue, handleSubmit, onSubmit } =
-    useEditReportModalController(report);
+    useEditReportModalController(report, onClose);
 
   return (
     <Modal
