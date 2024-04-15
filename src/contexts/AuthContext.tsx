@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface AuthContextType {
   signedIn: boolean;
@@ -19,6 +20,7 @@ export const AuthContext = createContext({} as AuthContextType);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [signedIn, setSignedIn] = useState<boolean>(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const checkSignInStatus = async () => {
@@ -46,6 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await AsyncStorage.removeItem('userId');
     setSignedIn(false);
     setUserId(null);
+    queryClient.invalidateQueries();
   }, []);
 
   return (

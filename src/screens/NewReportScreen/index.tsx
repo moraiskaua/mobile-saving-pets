@@ -56,13 +56,7 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
           contentContainerStyle={{ gap: 10 }}
           ListHeaderComponent={() => (
             <TouchableOpacity onPress={() => setIsCameraVisible(true)}>
-              <View
-                className="h-32 w-44 rounded-xl bg-gray-200 items-center justify-center"
-                style={{
-                  borderWidth: 2,
-                  borderColor: 'rgba(0, 0, 0, 0.5)',
-                }}
-              >
+              <View className="h-32 w-44 rounded-xl border-2 border-black/50 bg-gray-200 items-center justify-center">
                 <Icon name="upload-cloud" size={32} />
               </View>
             </TouchableOpacity>

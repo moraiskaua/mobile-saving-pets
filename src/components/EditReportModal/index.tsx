@@ -46,13 +46,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
             contentContainerStyle={{ gap: 10 }}
             ListHeaderComponent={() => (
               <TouchableOpacity>
-                <View
-                  className="h-32 w-44 rounded-xl bg-gray-200 items-center justify-center"
-                  style={{
-                    borderWidth: 2,
-                    borderColor: 'rgba(0, 0, 0, 0.5)',
-                  }}
-                >
+                <View className="h-32 w-44 border-2 border-black/50 rounded-xl bg-gray-200 items-center justify-center">
                   <Icon name="upload-cloud" size={32} />
                 </View>
               </TouchableOpacity>

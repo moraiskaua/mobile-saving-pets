@@ -65,13 +65,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
                 Denúncia: {item.type}
               </Text>
 
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderColor: '#70529D',
-                  borderRadius: 2,
-                }}
-              >
+              <View className="border border-[#70529D] rounded-sm">
                 <Text className="text-[#70529D] px-2.5 py-0.5 font-semibold text-xs">
                   {item.status === 'EM_ABERTO' && 'EM ABERTO'}
                   {item.status === 'EM_ANDAMENTO' && 'EM ANDAMENTO'}
