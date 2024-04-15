@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import { Report } from '../../entities/Report';
 import { Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Select from '../Select';
@@ -14,6 +13,8 @@ import TextBox from '../TextBox';
 import Button from '../Button';
 import Header from '../Header';
 import { useEditReportModalController } from './useEditReportModalController';
+import { Controller } from 'react-hook-form';
+import { Report } from '../../entities/Report';
 
 interface EditReportModalProps {
   visible: boolean;
@@ -26,7 +27,8 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
   report,
   onClose,
 }) => {
-  const { options } = useEditReportModalController();
+  const { options, control, errors, setValue, handleSubmit, onSubmit } =
+    useEditReportModalController(report);
 
   return (
     <Modal
@@ -40,7 +42,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
 
         <View className="p-3 pr-0">
           <FlatList
-            data={report.images}
+            data={report?.images}
             horizontal
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={{ gap: 10 }}
@@ -64,21 +66,50 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
         <View className="p-3.5 gap-3.5">
           <View>
             <Text className="text-black font-bold text-lg">Denúncia:</Text>
-            <Select options={options} value={report.type} />
+            <Controller
+              name="type"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  options={options}
+                  value={field.value}
+                  onChange={field.onChange}
+                  error={errors.type?.message}
+                />
+              )}
+            />
           </View>
 
           <View>
             <Text className="text-black font-bold text-lg">Descrição:</Text>
-            <TextBox
-              initialValue={report.description}
-              numberOfLines={6}
-              multiline
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => (
+                <TextBox
+                  numberOfLines={6}
+                  multiline
+                  value={field.value}
+                  onChangeText={field.onChange}
+                  error={errors.description?.message}
+                />
+              )}
             />
           </View>
 
           <View>
             <Text className="text-black font-bold text-lg">Localização:</Text>
-            <TextBox initialValue={report.location} />
+            <Controller
+              name="location"
+              control={control}
+              render={({ field }) => (
+                <TextBox
+                  value={field.value}
+                  onChangeText={field.onChange}
+                  error={errors.location?.message}
+                />
+              )}
+            />
           </View>
 
           <View className="flex-row mt-3.5 space-x-3">
@@ -88,7 +119,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
               </Button>
             </View>
             <View className="flex-1">
-              <Button variant="primary">
+              <Button variant="primary" onPress={handleSubmit(onSubmit)}>
                 <Text>Salvar</Text>
               </Button>
             </View>

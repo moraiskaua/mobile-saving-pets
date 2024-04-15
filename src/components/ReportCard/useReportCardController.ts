@@ -1,18 +1,30 @@
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { reportsService } from '../../services/reportsService';
+import { Report } from '../../entities/Report';
 
 export const useReportCardController = () => {
+  const [report, setReport] = useState<Report>();
   const [isDeleteModalVisible, setIsDeleteModalVisible] =
     useState<boolean>(false);
   const [isEditReportModalVisible, setIsEditReportModalVisible] =
     useState<boolean>(false);
+
   const tabHeight = useBottomTabBarHeight();
 
+  const handlePressEdit = useCallback(async (reportId: string) => {
+    const response = await reportsService.getById(reportId);
+    setReport(response);
+    setIsEditReportModalVisible(true);
+  }, []);
+
   return {
+    tabHeight,
     isDeleteModalVisible,
     isEditReportModalVisible,
-    tabHeight,
+    report,
     setIsDeleteModalVisible,
     setIsEditReportModalVisible,
+    handlePressEdit,
   };
 };

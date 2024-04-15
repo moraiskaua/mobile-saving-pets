@@ -3,9 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAuth } from '../../hooks/useAuth';
 import { useState } from 'react';
-import { User } from '../../entities/User';
 import { useMe } from '../../helpers/useMe';
-import { userService } from '../../services/userService';
 
 type FormData = z.infer<typeof schema>;
 

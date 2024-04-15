@@ -11,9 +11,10 @@ interface SelectProps {
   options: SelectOption[];
   value: string;
   error?: string;
+  onChange: (value: string) => void;
 }
 
-const Select: React.FC<SelectProps> = ({ options, value, error }) => {
+const Select: React.FC<SelectProps> = ({ options, value, error, onChange }) => {
   const { modalVisible, selected, handleSelect, setModalVisible } =
     useSelectController();
 
@@ -45,7 +46,9 @@ const Select: React.FC<SelectProps> = ({ options, value, error }) => {
               data={options}
               keyExtractor={item => item.value}
               renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => handleSelect(item.value)}>
+                <TouchableOpacity
+                  onPress={() => handleSelect(item.value, onChange)}
+                >
                   <Text className="py-2">{item.label.toUpperCase()}</Text>
                 </TouchableOpacity>
               )}

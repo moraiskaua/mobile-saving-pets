@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { TypeOfAbuse } from '../../entities/types/TypeOfAbuse';
 
 export const useSelectController = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [selected, setSelected] = useState<string | null>(null);
 
-  const handleSelect = (value: string) => {
+  const handleSelect = (value: string, onChange: (value: string) => void) => {
     setSelected(value);
+    onChange(value);
     setModalVisible(false);
   };
 
