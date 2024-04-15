@@ -1,20 +1,23 @@
 import { Text, Modal, View } from 'react-native';
 import Button from '../Button';
-import { useDeleteModalController } from './useDeleteModalController';
+import { useDeleteReportModalController } from './useDeleteReportModalController';
 import { Report } from '../../entities/Report';
 
-interface DeleteModalProps {
+interface DeleteReportModalProps {
   visible: boolean;
   report: Report;
   onClose: () => void;
 }
 
-const DeleteModal: React.FC<DeleteModalProps> = ({
+const DeleteReportModal: React.FC<DeleteReportModalProps> = ({
   visible,
   report,
   onClose,
 }) => {
-  const { handleDeleteReport } = useDeleteModalController(report, onClose);
+  const { handleDeleteReport } = useDeleteReportModalController(
+    report,
+    onClose,
+  );
 
   return (
     <Modal
@@ -46,4 +49,4 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   );
 };
 
-export default DeleteModal;
+export default DeleteReportModal;

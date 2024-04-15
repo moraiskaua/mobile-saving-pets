@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { reportsService } from '../../services/reportsService';
 import { Report } from '../../entities/Report';
 
-export const useDeleteModalController = (
+export const useDeleteReportModalController = (
   report: Report,
   onClose: () => void,
 ) => {
