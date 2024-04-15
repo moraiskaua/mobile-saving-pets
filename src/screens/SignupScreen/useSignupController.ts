@@ -1,10 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
-import { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { httpClient } from '../../services/httpClient';
 import { signup } from '../../services/authService/signup';
 
 type FormData = z.infer<typeof schema>;

@@ -4,27 +4,16 @@ import Header from '../../components/Header';
 import { useHomeController } from './useHomeController';
 import ReportCard from '../../components/ReportCard';
 import Fab from '../../components/Fab';
-import NewReportModal from '../../components/NewReportModal';
+import { useNavigation } from '@react-navigation/native';
 
 interface HomeScreenProps {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
-  const {
-    reports,
-    isFetching,
-    isInitialLoading,
-    isNewReportModalVisible,
-    setIsNewReportModalVisible,
-  } = useHomeController();
-
+  const { reports, isFetching, isInitialLoading } = useHomeController();
+  const { navigate } = useNavigation<any>();
   return (
     <SafeAreaView className="flex-1 relative">
       <Header />
-
-      <NewReportModal
-        visible={isNewReportModalVisible}
-        onClose={() => setIsNewReportModalVisible(false)}
-      />
 
       {!isInitialLoading && (
         <View className="flex-1">
@@ -42,7 +31,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
         </View>
       )}
 
-      <Fab onPress={() => setIsNewReportModalVisible(true)} />
+      <Fab onPress={() => navigate('NewReport')} />
     </SafeAreaView>
   );
 };

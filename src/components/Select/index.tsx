@@ -10,9 +10,10 @@ interface SelectOption {
 interface SelectProps {
   options: SelectOption[];
   value: string;
+  error?: string;
 }
 
-const Select: React.FC<SelectProps> = ({ options, value }) => {
+const Select: React.FC<SelectProps> = ({ options, value, error }) => {
   const { modalVisible, selected, handleSelect, setModalVisible } =
     useSelectController();
 
@@ -25,6 +26,12 @@ const Select: React.FC<SelectProps> = ({ options, value }) => {
         <Text>{selected ?? value}</Text>
         <Icon name="chevron-down" size={20} />
       </TouchableOpacity>
+
+      {error && (
+        <View className="flex items-center -mt-3">
+          <Text className="text-xs text-red-900">{error}</Text>
+        </View>
+      )}
 
       <Modal
         visible={modalVisible}

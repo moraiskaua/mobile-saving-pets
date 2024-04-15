@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import Button from '../Button';
 import DeleteModal from '../DeleteModal';
 import { useReportCardController } from './useReportCardController';
-import NewReportModal from '../NewReportModal';
+import NewReportModal from '../../screens/NewReportScreen';
 import EditReportModal from '../EditReportModal';
 
 interface ReportCardProps {
