@@ -39,6 +39,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
     isCameraVisible,
     device,
     camera,
+    imagesLocal,
     handleTakePicture,
     setValue,
     handleSubmit,
@@ -66,7 +67,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
 
         <View className="p-3 pr-0">
           <FlatList
-            data={report.images}
+            data={imagesLocal}
             horizontal
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={{ gap: 10 }}
