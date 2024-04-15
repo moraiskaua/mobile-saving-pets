@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   FlatList,
+  TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Select from '../../components/Select';
@@ -20,10 +21,12 @@ import { TypeOfAbuse } from '../../entities/types/TypeOfAbuse';
 interface NewReportScreenProps {}
 
 const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
+  const { goBack } = useNavigation();
   const {
     isCameraVisible,
     options,
-    images,
+    imagesLocal,
+    imagesPath,
     device,
     camera,
     control,
@@ -33,8 +36,7 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
     handleTakePicture,
     handleSubmit,
     onSubmit,
-  } = useNewReportScreenController();
-  const { goBack } = useNavigation();
+  } = useNewReportScreenController(goBack);
 
   return (
     <SafeAreaView className="flex-1">
@@ -50,7 +52,7 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
 
       <View className="p-3 pr-0">
         <FlatList
-          data={images}
+          data={imagesLocal}
           horizontal
           keyExtractor={(item, index) => index.toString()}
           contentContainerStyle={{ gap: 10 }}
@@ -62,12 +64,19 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
             </TouchableOpacity>
           )}
           renderItem={({ item }) => (
-            <FastImage
-              source={{
-                uri: item,
-              }}
-              className="h-32 w-44 rounded-xl"
-              resizeMode="cover"
+            <Controller
+              name="images"
+              control={control}
+              defaultValue={imagesPath}
+              render={({ field }) => (
+                <FastImage
+                  source={{
+                    uri: item,
+                  }}
+                  className="h-32 w-44 rounded-xl"
+                  resizeMode="cover"
+                />
+              )}
             />
           )}
         />

@@ -1,11 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CameraRoll } from '@react-native-camera-roll/camera-roll';
+import { AssetType, CameraRoll } from '@react-native-camera-roll/camera-roll';
 import { useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Camera, useCameraDevice } from 'react-native-vision-camera';
 import { z } from 'zod';
 import { useAuth } from '../../hooks/useAuth';
 import { reportsService } from '../../services/reportsService';
+import axios from 'axios';
+import RNFS from 'react-native-fs';
+import { useQueryClient } from '@tanstack/react-query';
 
 type FormData = z.infer<typeof schema>;
 
@@ -18,12 +21,21 @@ const schema = z.object({
   images: z.array(z.string()),
 });
 
-export const useNewReportScreenController = () => {
+type FileType = {
+  uri: string;
+  type: string;
+  name: string;
+};
+
+export const useNewReportScreenController = (goBack: () => void) => {
   const [isCameraVisible, setIsCameraVisible] = useState<boolean>(false);
-  const [images, setImages] = useState<string[]>([]);
+  const [imagesLocal, setImagesLocal] = useState<string[]>([]);
+  const [imagesPath, setImagesPath] = useState<string[]>([]);
+  const [images, setImages] = useState<FileType[]>([]);
   const device = useCameraDevice('back');
   const camera = useRef<Camera>(null);
   const { userId } = useAuth();
+  const queryClient = useQueryClient();
 
   const {
     handleSubmit,
@@ -42,11 +54,6 @@ export const useNewReportScreenController = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormData> = async data => {
-    console.log(data);
-    // reportsService.create(data);
-  };
-
   const options = [
     { value: 'ABANDONO', label: 'Abandono' },
     { value: 'AGRESSAO', label: 'Agressão' },
@@ -61,14 +68,67 @@ export const useNewReportScreenController = () => {
       CameraRoll.saveAsset(`file://${photo.path}`, {
         type: 'photo',
       });
-      setImages([...images, `file://${photo.path}`]);
+
+      const file = {
+        uri: `file://${photo.path}`,
+        type: `image/${photo.path.split('.')[2]}`,
+        name: `image.${photo.path.split('/cache/')[1]}`,
+      };
+
+      setImages(prevImages => [...prevImages, file]);
+      setImagesLocal(prevImagesLocal => [...prevImagesLocal, file.uri]);
       setIsCameraVisible(false);
     }
   };
 
+  const handleUploadImage = async (asset: FileType): Promise<string | null> => {
+    const uploadData = new FormData();
+
+    uploadData.append('file', asset);
+    uploadData.append('upload_preset', 'pr0qgvxd');
+    uploadData.append('cloud_name', 'dw5mfh7lg');
+
+    try {
+      const { data } = await axios.post(
+        'https://api.cloudinary.com/v1_1/dw5mfh7lg/upload',
+        uploadData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+
+      return data.secure_url;
+    } catch (error) {
+      console.error('Erro ao fazer upload da imagem:', error);
+      return null;
+    }
+  };
+
+  const onSubmit: SubmitHandler<FormData> = async data => {
+    const uploadPromises = images.map(async image => {
+      const imageUrl = await handleUploadImage(image);
+
+      if (imageUrl) {
+        setImagesPath(prevImagesPath => [...prevImagesPath, imageUrl]);
+      }
+    });
+
+    await Promise.all(uploadPromises);
+    await reportsService.create({
+      ...data,
+      images: imagesPath,
+    });
+
+    queryClient.invalidateQueries({ queryKey: ['reports'] });
+    goBack();
+  };
+
   return {
     options,
-    images,
+    imagesLocal,
+    imagesPath,
     isCameraVisible,
     camera,
     device,
