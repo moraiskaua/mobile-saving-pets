@@ -8,6 +8,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { reportsService } from '../../services/reportsService';
 import axios from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
+import { FileType } from '../../entities/types/File';
 
 type FormData = z.infer<typeof schema>;
 
@@ -19,12 +20,6 @@ const schema = z.object({
   userId: z.string().min(1),
   images: z.array(z.string()),
 });
-
-type FileType = {
-  uri: string;
-  type: string;
-  name: string;
-};
 
 export const useNewReportScreenController = (goBack: () => void) => {
   const [isCameraVisible, setIsCameraVisible] = useState<boolean>(false);
@@ -101,8 +96,6 @@ export const useNewReportScreenController = (goBack: () => void) => {
   };
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    console.log(imagesPath);
-
     await reportsService.create({
       ...data,
       images: imagesPath,

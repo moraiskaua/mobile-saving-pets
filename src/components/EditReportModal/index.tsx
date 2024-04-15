@@ -17,6 +17,8 @@ import { Controller } from 'react-hook-form';
 import { Report } from '../../entities/Report';
 import { TypeOfAbuse } from '../../entities/types/TypeOfAbuse';
 import { TypeOfStatus } from '../../entities/types/TypeOfStatus';
+import FastImage from 'react-native-fast-image';
+import CameraScreen from '../CameraScreen';
 
 interface EditReportModalProps {
   visible: boolean;
@@ -30,13 +32,18 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
   onClose,
 }) => {
   const {
-    typeOptions,
+    reportTypeOptions,
     statusOptions,
     control,
     errors,
+    isCameraVisible,
+    device,
+    camera,
+    handleTakePicture,
     setValue,
     handleSubmit,
     onSubmit,
+    setIsCameraVisible,
   } = useEditReportModalController(report, onClose);
 
   return (
@@ -49,25 +56,44 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
       <SafeAreaView className="flex-1">
         <Header size="small" />
 
+        <CameraScreen
+          visible={isCameraVisible}
+          device={device}
+          camera={camera}
+          onTakePicture={handleTakePicture}
+          onClose={() => setIsCameraVisible(false)}
+        />
+
         <View className="p-3 pr-0">
           <FlatList
-            data={report?.images}
+            data={report.images}
             horizontal
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={{ gap: 10 }}
             ListHeaderComponent={() => (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => setIsCameraVisible(true)}>
                 <View className="h-32 w-44 border-2 border-black/50 rounded-xl bg-gray-200 items-center justify-center">
                   <Icon name="upload-cloud" size={32} />
                 </View>
               </TouchableOpacity>
             )}
-            renderItem={({ item }) => (
-              <Image
-                source={{ uri: item }}
-                className="h-32 w-44 rounded-xl"
-                resizeMode="cover"
-              />
+            renderItem={({ item, index }) => (
+              <TouchableOpacity onPress={() => {}}>
+                <Controller
+                  name="images"
+                  control={control}
+                  defaultValue={report.images}
+                  render={({ field }) => (
+                    <FastImage
+                      source={{
+                        uri: item,
+                      }}
+                      className="h-32 w-44 rounded-xl"
+                      resizeMode="cover"
+                    />
+                  )}
+                />
+              </TouchableOpacity>
             )}
           />
         </View>
@@ -96,7 +122,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
               control={control}
               render={({ field }) => (
                 <Select
-                  options={typeOptions}
+                  options={reportTypeOptions}
                   value={field.value}
                   onChange={value => setValue('type', value as TypeOfAbuse)}
                   error={errors.type?.message}
