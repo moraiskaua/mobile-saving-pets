@@ -38,17 +38,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = useCallback(async (userId: string, accessToken: string) => {
-    await AsyncStorage.setItem('accessToken', accessToken);
-    await AsyncStorage.setItem('userId', userId);
+    await Promise.all([
+      AsyncStorage.setItem('accessToken', accessToken),
+      AsyncStorage.setItem('userId', userId),
+    ]);
     setSignedIn(true);
   }, []);
 
   const logout = useCallback(async () => {
-    await AsyncStorage.removeItem('accessToken');
-    await AsyncStorage.removeItem('userId');
+    await Promise.all([
+      AsyncStorage.removeItem('accessToken'),
+      AsyncStorage.removeItem('userId'),
+    ]);
     setSignedIn(false);
     setUserId(null);
-    queryClient.invalidateQueries();
+    queryClient.invalidateQueries({ queryKey: ['users'] });
   }, []);
 
   return (

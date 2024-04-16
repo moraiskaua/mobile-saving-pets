@@ -71,6 +71,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                     placeholder="Celular"
                     autoCapitalize="none"
                     value={field.value}
+                    keyboardType="phone-pad"
                     onChangeText={value =>
                       setValue('phone', formatPhone(value))
                     }

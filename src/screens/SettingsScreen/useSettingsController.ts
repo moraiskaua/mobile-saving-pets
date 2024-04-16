@@ -2,8 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAuth } from '../../hooks/useAuth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { userService } from '../../services/userService';
 import { useMe } from '../../helpers/useMe';
+import { httpClient } from '../../services/httpClient';
+import { User } from '../../entities/User';
 
 type FormData = z.infer<typeof schema>;
 
@@ -19,6 +22,7 @@ export const useSettingsController = () => {
   const [editionMode, setEditionMode] = useState<boolean>(false);
   const { userId } = useAuth();
   const { user } = useMe(userId);
+
   console.log(user);
 
   const toggleEditionMode = () => setEditionMode(!editionMode);

@@ -74,6 +74,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
                 placeholder="Cpf"
                 autoCapitalize="none"
                 value={field.value}
+                keyboardType="numeric"
                 onChangeText={value => setValue('cpf', formatCPF(value))}
                 maxLength={14}
                 error={errors.cpf?.message}
@@ -87,6 +88,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({}) => {
               <Input
                 placeholder="Celular"
                 autoCapitalize="none"
+                keyboardType="phone-pad"
                 value={field.value}
                 onChangeText={value => setValue('phone', formatPhone(value))}
                 maxLength={15}
