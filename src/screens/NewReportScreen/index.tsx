@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   FlatList,
-  TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Select from '../../components/Select';
@@ -17,6 +16,7 @@ import FastImage from 'react-native-fast-image';
 import { Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { TypeOfAbuse } from '../../entities/types/TypeOfAbuse';
+import { reportTypeOptions } from '../../entities/consts/reportTypeOptions';
 
 interface NewReportScreenProps {}
 
@@ -24,7 +24,6 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
   const { goBack } = useNavigation();
   const {
     isCameraVisible,
-    options,
     imagesLocal,
     imagesPath,
     device,
@@ -90,7 +89,7 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
             name="type"
             render={({ field }) => (
               <Select
-                options={options}
+                options={reportTypeOptions}
                 value={field.value}
                 onChange={value => setValue('type', value as TypeOfAbuse)}
                 error={errors.type?.message}

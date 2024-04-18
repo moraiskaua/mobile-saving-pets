@@ -47,14 +47,6 @@ export const useNewReportScreenController = (goBack: () => void) => {
     },
   });
 
-  const options = [
-    { value: 'ABANDONO', label: 'Abandono' },
-    { value: 'AGRESSAO', label: 'Agressão' },
-    { value: 'NEGLIGENCIA', label: 'Negligência' },
-    { value: 'EXPLORACAO', label: 'Exploração' },
-    { value: 'OUTROS', label: 'Outros' },
-  ];
-
   const handleTakePicture = async () => {
     const photo = await camera.current?.takePhoto();
     if (photo) {
@@ -105,7 +97,6 @@ export const useNewReportScreenController = (goBack: () => void) => {
   };
 
   return {
-    options,
     imagesLocal,
     imagesPath,
     isCameraVisible,

@@ -7,6 +7,7 @@ import {
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
+import { AuthDataProps } from '../services/httpClient';
 
 interface AuthContextType {
   signedIn: boolean;
@@ -25,10 +26,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const checkSignInStatus = async () => {
       try {
-        const storedAccessToken = await AsyncStorage.getItem('accessToken');
-        const userId = await AsyncStorage.getItem('userId');
-        setSignedIn(!!storedAccessToken);
-        setUserId(userId);
+        const res = await AsyncStorage.getItem('@authData');
+        const authData: AuthDataProps = JSON.parse(res as string);
+        setSignedIn(!!authData.accessToken);
+        setUserId(authData.userId);
       } catch (error) {
         console.error('Error checking sign-in status:', error);
       }
@@ -38,18 +39,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = useCallback(async (userId: string, accessToken: string) => {
-    await Promise.all([
-      AsyncStorage.setItem('accessToken', accessToken),
-      AsyncStorage.setItem('userId', userId),
-    ]);
+    await AsyncStorage.setItem(
+      '@authData',
+      JSON.stringify({ accessToken, userId }),
+    );
     setSignedIn(true);
+    setUserId(userId);
   }, []);
 
   const logout = useCallback(async () => {
-    await Promise.all([
-      AsyncStorage.removeItem('accessToken'),
-      AsyncStorage.removeItem('userId'),
-    ]);
+    await AsyncStorage.getItem('@authData');
     setSignedIn(false);
     setUserId(null);
     queryClient.invalidateQueries({ queryKey: ['users'] });

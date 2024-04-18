@@ -6,11 +6,17 @@ export const httpClient = axios.create({
   baseURL: 'http://10.0.2.2:8080',
 });
 
-httpClient.interceptors.request.use(async config => {
-  const accessToken = await AsyncStorage.getItem('accessToken');
+export interface AuthDataProps {
+  accessToken: string;
+  userId: string;
+}
 
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
+httpClient.interceptors.request.use(async config => {
+  const res = await AsyncStorage.getItem('@authData');
+  const authData: AuthDataProps = JSON.parse(res as string);
+
+  if (authData) {
+    config.headers.Authorization = `Bearer ${authData.accessToken}`;
   }
 
   return config;
