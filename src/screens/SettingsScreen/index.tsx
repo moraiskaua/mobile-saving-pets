@@ -60,6 +60,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                     value={field.value}
                     onChangeText={value => setValue('name', value)}
                     error={errors.name?.message}
+                    editable={editionMode}
                   />
                 )}
               />
@@ -77,6 +78,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                     }
                     maxLength={15}
                     error={errors.phone?.message}
+                    editable={editionMode}
                   />
                 )}
               />
@@ -88,13 +90,14 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                     name="password"
                     render={({ field }) => (
                       <Input
-                        placeholder="Senha"
+                        placeholder="Senha atual"
                         autoCapitalize="none"
                         secureTextEntry
                         isRow
                         value={field.value}
                         onChangeText={value => setValue('password', value)}
                         error={errors.password?.message}
+                        editable={editionMode}
                       />
                     )}
                   />
@@ -112,6 +115,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                         value={field.value}
                         onChangeText={value => setValue('newPassword', value)}
                         error={errors.password?.message}
+                        editable={editionMode}
                       />
                     )}
                   />

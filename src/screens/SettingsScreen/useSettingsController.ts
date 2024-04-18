@@ -2,11 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAuth } from '../../hooks/useAuth';
-import { useEffect, useState } from 'react';
-import { userService } from '../../services/userService';
+import { useState } from 'react';
 import { useMe } from '../../helpers/useMe';
-import { httpClient } from '../../services/httpClient';
-import { User } from '../../entities/User';
 
 type FormData = z.infer<typeof schema>;
 
@@ -20,7 +17,7 @@ const schema = z.object({
 
 export const useSettingsController = () => {
   const [editionMode, setEditionMode] = useState<boolean>(false);
-  const { userId } = useAuth();
+  const { userId, logout } = useAuth();
   const { user } = useMe(userId);
 
   console.log(user);
@@ -43,10 +40,8 @@ export const useSettingsController = () => {
     },
   });
 
-  const { logout } = useAuth();
-
   const onSubmit: SubmitHandler<FormData> = async data => {
-    console.log(data);
+    console.log('Minhas credenciais: ', data);
   };
 
   return {

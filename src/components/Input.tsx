@@ -20,6 +20,7 @@ const Input: React.FC<InputProps> = ({
   className,
   secureTextEntry,
   isRow = false,
+  editable = true,
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -40,6 +41,7 @@ const Input: React.FC<InputProps> = ({
           className={cn(
             'relative outline-none bg-white rounded-xl border border-gray-500 px-3 h-14 text-gray-800 w-full pt-4',
             error && 'border-red-900',
+            !editable && 'bg-gray-300/70',
             className,
           )}
         />
