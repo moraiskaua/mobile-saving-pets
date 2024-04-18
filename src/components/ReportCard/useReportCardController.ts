@@ -18,6 +18,12 @@ export const useReportCardController = () => {
     setIsEditReportModalVisible(true);
   }, []);
 
+  const handlePressDelete = useCallback(async (reportId: string) => {
+    const response = await reportsService.getById(reportId);
+    setReport(response);
+    setIsDeleteModalVisible(true);
+  }, []);
+
   return {
     tabHeight,
     isDeleteModalVisible,
@@ -26,5 +32,6 @@ export const useReportCardController = () => {
     setIsDeleteModalVisible,
     setIsEditReportModalVisible,
     handlePressEdit,
+    handlePressDelete,
   };
 };

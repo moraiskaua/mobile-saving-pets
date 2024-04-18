@@ -28,6 +28,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
     isEditReportModalVisible,
     report,
     handlePressEdit,
+    handlePressDelete,
     setIsEditReportModalVisible,
     setIsDeleteModalVisible,
   } = useReportCardController();
@@ -36,16 +37,16 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
     <>
       {report && (
         <>
-          <EditReportModal
-            visible={isEditReportModalVisible}
-            report={report}
-            onClose={() => setIsEditReportModalVisible(false)}
-          />
-
           <DeleteReportModal
             visible={isDeleteModalVisible}
             report={report}
             onClose={() => setIsDeleteModalVisible(false)}
+          />
+
+          <EditReportModal
+            visible={isEditReportModalVisible}
+            report={report}
+            onClose={() => setIsEditReportModalVisible(false)}
           />
         </>
       )}
@@ -103,7 +104,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
               <View className="flex-1">
                 <Button
                   variant="secondary"
-                  onPress={() => setIsDeleteModalVisible(true)}
+                  onPress={() => handlePressDelete(item.id)}
                 >
                   <Icon name="trash-2" size={20} />
                 </Button>
