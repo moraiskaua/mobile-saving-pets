@@ -57,6 +57,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({}) => {
               />
             )}
           />
+          <TouchableOpacity onPress={() => navigate('ForgotPassword')} className=''>
+            <Text className="text-black/30">Esqueci a senha</Text>
+          </TouchableOpacity>
 
           <Button variant="primary" onPress={handleSubmit(onSubmit)}>
             Entrar
