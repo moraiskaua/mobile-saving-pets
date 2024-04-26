@@ -1,14 +1,14 @@
-import { View, Text } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Header from '../../components/Header';
 import { Controller } from 'react-hook-form';
-import Input from '../../components/Input';
-import { useSettingsController } from './useSettingsController';
-import { formatPhone } from '../../utils/formaters';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Button from '../../components/Button';
+import { Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Button from '../../components/Button';
+import Header from '../../components/Header';
+import Input from '../../components/Input';
+import { formatPhone } from '../../utils/formaters';
+import { useSettingsController } from './useSettingsController';
 
 interface SettingsScreenProps {}
 
