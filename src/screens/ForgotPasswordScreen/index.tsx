@@ -22,7 +22,7 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({}) => {
           <Button variant="primary">Enviar código</Button>
           <View className="flex-row justify-center items-center">
             <TouchableOpacity onPress={() => goBack()}>
-              <Text className="text-black/50  ">Voltar</Text>
+              <Text className="text-black/50">Voltar</Text>
             </TouchableOpacity>
           </View>
         </View>

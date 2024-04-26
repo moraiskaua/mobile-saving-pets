@@ -1,12 +1,6 @@
-import {
-  ReactNode,
-  createContext,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
+import { ReactNode, createContext, useEffect, useState } from 'react';
 import { AuthDataProps } from '../services/httpClient';
 
 interface AuthContextType {
@@ -38,21 +32,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkSignInStatus();
   }, []);
 
-  const login = useCallback(async (userId: string, accessToken: string) => {
+  const login = async (userId: string, accessToken: string) => {
     await AsyncStorage.setItem(
       '@authData',
       JSON.stringify({ accessToken, userId }),
     );
     setSignedIn(true);
     setUserId(userId);
-  }, []);
+  };
 
-  const logout = useCallback(async () => {
+  const logout = async () => {
     await AsyncStorage.getItem('@authData');
     setSignedIn(false);
     setUserId(null);
     queryClient.invalidateQueries({ queryKey: ['users'] });
-  }, []);
+  };
 
   return (
     <AuthContext.Provider
