@@ -7,18 +7,10 @@ import Button from '../Button';
 import { useReportCardController } from './useReportCardController';
 import EditReportModal from '../EditReportModal';
 import DeleteReportModal from '../DeleteReportModal';
+import { Report } from '../../entities/Report';
 
 interface ReportCardProps {
-  reports: {
-    id: string;
-    images: string[];
-    type: TypeOfAbuse;
-    status: TypeOfStatus;
-    description: string;
-    userId: string;
-    location: string;
-    createdAt: string;
-  }[];
+  reports: Report[];
 }
 
 const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {

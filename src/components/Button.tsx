@@ -7,6 +7,7 @@ import { TouchableOpacityProps } from 'react-native-gesture-handler';
 interface ButtonProps extends TouchableOpacityProps {
   children: ReactNode;
   variant?: 'primary' | 'secondary';
+  small?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({

@@ -16,7 +16,7 @@ const AnimalShelter: React.FC<AnimalShelterProps> = ({}) => {
       {!isInitialLoading && (
         <View className="flex-1">
           {shelters.length > 0 ? (
-            <ShelterCard />
+            <ShelterCard shelters={shelters} />
           ) : (
             <View className="flex-1 justify-center items-center">
               <Image source={require('../../assets/no-reports.png')} />
