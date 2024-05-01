@@ -3,16 +3,31 @@ import { Shelter } from '../../entities/Shelter';
 import Button from '../Button';
 import Icon from 'react-native-vector-icons/Feather';
 import { useShelterCardController } from './useShelterCardController';
+import ContactShelterModal from '../ContactShelterModal';
 
 interface ShelterCardProps {
   shelters: Shelter[];
 }
 
 const ShelterCard: React.FC<ShelterCardProps> = ({ shelters }) => {
-  const { tabHeight } = useShelterCardController();
+  const {
+    shelter,
+    tabHeight,
+    isContactShelterModalVisible,
+    setIsContactShelterModalVisible,
+    handlePressContact,
+  } = useShelterCardController();
 
   return (
     <>
+      {shelter && (
+        <ContactShelterModal
+          visible={isContactShelterModalVisible}
+          shelter={shelter}
+          onClose={() => setIsContactShelterModalVisible(false)}
+        />
+      )}
+
       <FlatList
         data={shelters}
         keyExtractor={shelter => shelter.id}
@@ -46,7 +61,10 @@ const ShelterCard: React.FC<ShelterCardProps> = ({ shelters }) => {
                 </Button>
               </View>
               <View className="flex-1">
-                <Button variant="secondary" onPress={() => {}}>
+                <Button
+                  variant="secondary"
+                  onPress={() => handlePressContact(item.id)}
+                >
                   <Icon name="phone" size={20} />
                 </Button>
               </View>
