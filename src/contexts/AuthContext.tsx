@@ -22,8 +22,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const res = await AsyncStorage.getItem('@authData');
         const authData: AuthDataProps = JSON.parse(res as string);
-        setSignedIn(!!authData.accessToken);
-        setUserId(authData.userId);
+
+        if (!authData) return logout();
+
+        login(authData.userId, authData.accessToken);
       } catch (error) {
         console.error('Error checking sign-in status:', error);
       }
