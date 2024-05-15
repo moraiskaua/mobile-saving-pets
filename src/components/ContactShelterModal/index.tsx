@@ -5,6 +5,7 @@ import Header from '../Header';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Feather';
 import Button from '../Button';
+import { useContactShelterModalController } from './useContactShelterModalController';
 
 interface ContactShelterModalProps {
   visible: boolean;
@@ -17,6 +18,8 @@ const ContactShelterModal: React.FC<ContactShelterModalProps> = ({
   shelter,
   onClose,
 }) => {
+  const { handleOpenPhone } = useContactShelterModalController();
+
   return (
     <Modal
       visible={visible}
@@ -28,6 +31,10 @@ const ContactShelterModal: React.FC<ContactShelterModalProps> = ({
         <Header />
 
         <View className="p-3 pt-0 pr-0 m-auto">
+          <Text className="text-center font-bold text-2xl text-black">
+            {shelter.name}
+          </Text>
+
           <FlatList
             data={shelter.images}
             horizontal
@@ -46,28 +53,32 @@ const ContactShelterModal: React.FC<ContactShelterModalProps> = ({
 
           <View className="">
             <View className="my-3.5 items-center">
-              <Text className="font-bold text-2xl text-black">
-                {shelter.name}
-              </Text>
               <Text className="text-sm">{shelter.openingHours}</Text>
             </View>
 
-            <View className="">
+            <View className="gap-1.5">
               <View className="flex-row gap-2 items-center justify-center">
                 <Icon name="globe" size={18} />
-                <Text className="text-xl">{shelter.website}</Text>
+                <Text className="text-2xl" selectable>
+                  {shelter.website}
+                </Text>
               </View>
 
-              <View>
-                <View className="flex-row gap-2 items-center justify-center">
-                  <Icon name="mail" size={18} />
-                  <Text className="text-xl">{shelter.email}</Text>
-                </View>
+              <View className="flex-row gap-2 items-center justify-center">
+                <Icon name="mail" size={18} />
+                <Text className="text-2xl" selectable>
+                  {shelter.email}
+                </Text>
+              </View>
 
-                <View className="flex-row gap-2 items-center justify-center">
-                  <Icon name="phone" size={18} />
-                  <Text className="text-xl">{shelter.phone}</Text>
-                </View>
+              <View className="flex-row gap-2 items-center justify-center">
+                <Icon name="phone" size={18} />
+                <Text
+                  className="text-2xl"
+                  onPress={() => handleOpenPhone(shelter.phone)}
+                >
+                  {shelter.phone}
+                </Text>
               </View>
             </View>
           </View>
