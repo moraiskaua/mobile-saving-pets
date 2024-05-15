@@ -37,6 +37,7 @@ const Input: React.FC<InputProps> = ({
           {...props}
           ref={inputRef}
           placeholder=" "
+          editable={editable}
           secureTextEntry={!showPassword && secureTextEntry}
           className={cn(
             'relative outline-none bg-white rounded-xl border border-gray-500 px-3 h-14 text-gray-800 w-full pt-4',
