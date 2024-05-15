@@ -4,6 +4,7 @@ import Button from '../Button';
 import Icon from 'react-native-vector-icons/Feather';
 import { useShelterCardController } from './useShelterCardController';
 import ContactShelterModal from '../ContactShelterModal';
+import { useAnimalShelterController } from '../../screens/AnimalShelterScreen/useAnimalShelterController';
 
 interface ShelterCardProps {
   shelters: Shelter[];
@@ -17,6 +18,7 @@ const ShelterCard: React.FC<ShelterCardProps> = ({ shelters }) => {
     setIsContactShelterModalVisible,
     handlePressContact,
   } = useShelterCardController();
+  const { handleOpenLocation } = useAnimalShelterController();
 
   return (
     <>
@@ -56,7 +58,10 @@ const ShelterCard: React.FC<ShelterCardProps> = ({ shelters }) => {
 
             <View className="flex-row mt-3.5 space-x-3">
               <View className="flex-1">
-                <Button variant="primary" onPress={() => {}}>
+                <Button
+                  variant="primary"
+                  onPress={() => handleOpenLocation(item.address)}
+                >
                   <Icon name="map" size={18} />
                 </Button>
               </View>
