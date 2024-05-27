@@ -42,7 +42,20 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
           </TouchableOpacity>
 
           <View className="items-center" style={{ gap: 16 }}>
-            <TouchableOpacity onPress={handleOpenImagePicker}>
+            {editionMode ? (
+              <TouchableOpacity onPress={handleOpenImagePicker}>
+                <FastImage
+                  source={
+                    user?.image
+                      ? { uri: user.image }
+                      : require('../../assets/person.png')
+                  }
+                  resizeMode="cover"
+                  className="h-32 w-32 rounded-full"
+                />
+                <Text className="text-center text-xs -mt-0.5">Trocar foto</Text>
+              </TouchableOpacity>
+            ) : (
               <FastImage
                 source={
                   user?.image
@@ -52,8 +65,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                 resizeMode="cover"
                 className="h-32 w-32 rounded-full"
               />
-              <Text className="text-center">Trocar foto</Text>
-            </TouchableOpacity>
+            )}
 
             <View className="w-full" style={{ gap: 10 }}>
               <Controller

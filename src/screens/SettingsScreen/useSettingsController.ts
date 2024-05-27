@@ -75,7 +75,13 @@ export const useSettingsController = () => {
           console.log('Operação cancelada');
         }
 
-        console.log(response.assets?.[0].uri);
+        const file = {
+          uri: response.assets?.[0].uri!,
+          type: response.assets?.[0].type!,
+          name: response.assets?.[0].fileName!,
+        };
+
+        handleUploadImage(file);
       },
     );
   };
@@ -116,6 +122,7 @@ export const useSettingsController = () => {
     editionMode,
     control,
     errors,
+    selectedImage,
     setValue,
     logout,
     toggleEditionMode,
