@@ -51,17 +51,18 @@ export const useSettingsController = () => {
 
     if (data.password && data.newPassword) {
       updatePassword({
+        password: data.newPassword,
         oldPassword: data.password,
-        newPassword: data.newPassword,
       });
     }
 
-    console.log('Minhas credenciais: ', data);
+    setDefaultValues();
     toggleEditionMode();
-    refetch();
   };
 
   const setDefaultValues = () => {
+    refetch();
+
     if (user) {
       setValue('image', user.image || '');
       setValue('name', user.name);

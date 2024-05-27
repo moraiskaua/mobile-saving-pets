@@ -10,7 +10,7 @@ interface AuthContextType {
   userId: string;
   login: (userId: string, accessToken: string) => void;
   logout: () => void;
-  updatePassword: ({ oldPassword, newPassword }: updatePasswordDto) => void;
+  updatePassword: ({ password, oldPassword }: updatePasswordDto) => void;
 }
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -54,13 +54,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updatePassword = async ({
+    password,
     oldPassword,
-    newPassword,
   }: updatePasswordDto) => {
-    await userService.updatePassword(userId!, {
-      oldPassword,
-      newPassword,
-    });
+    await userService.updatePassword(userId!, { password, oldPassword });
   };
 
   return (
