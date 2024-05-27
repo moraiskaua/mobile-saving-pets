@@ -2,12 +2,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
 import { ReactNode, createContext, useEffect, useState } from 'react';
 import { AuthDataProps } from '../services/httpClient';
+import { updatePasswordDto } from '../services/userService/updatePassword';
+import { userService } from '../services/userService';
 
 interface AuthContextType {
   signedIn: boolean;
   userId: string;
   login: (userId: string, accessToken: string) => void;
   logout: () => void;
+  updatePassword: ({ oldPassword, newPassword }: updatePasswordDto) => void;
 }
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -21,7 +24,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const checkSignInStatus = async () => {
       try {
         const res = await AsyncStorage.getItem('@authData');
-        const authData: AuthDataProps = JSON.parse(res as string);
+        const authData: AuthDataProps = await JSON.parse(res as string);
 
         if (!authData) return logout();
 
@@ -50,6 +53,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     queryClient.invalidateQueries({ queryKey: ['users'] });
   };
 
+  const updatePassword = async ({
+    oldPassword,
+    newPassword,
+  }: updatePasswordDto) => {
+    await userService.updatePassword(userId!, {
+      oldPassword,
+      newPassword,
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -57,6 +70,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         userId: userId!,
         login,
         logout,
+        updatePassword,
       }}
     >
       {children}

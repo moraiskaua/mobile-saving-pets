@@ -21,6 +21,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
     setValue,
     toggleEditionMode,
     logout,
+    setDefaultValues,
     handleSubmit,
     onSubmit,
   } = useSettingsController();
@@ -126,7 +127,13 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
                 {editionMode ? (
                   <>
                     <View className="flex-1">
-                      <Button variant="secondary" onPress={toggleEditionMode}>
+                      <Button
+                        variant="secondary"
+                        onPress={() => {
+                          toggleEditionMode();
+                          setDefaultValues();
+                        }}
+                      >
                         <Text>Cancelar</Text>
                       </Button>
                     </View>
