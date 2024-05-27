@@ -9,6 +9,7 @@ import Header from '../../components/Header';
 import Input from '../../components/Input';
 import { formatPhone } from '../../utils/formaters';
 import { useSettingsController } from './useSettingsController';
+import { env } from '../../constants/env';
 
 interface SettingsScreenProps {}
 
@@ -21,6 +22,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
     setValue,
     toggleEditionMode,
     logout,
+    handleOpenImagePicker,
     setDefaultValues,
     handleSubmit,
     onSubmit,
@@ -40,15 +42,18 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({}) => {
           </TouchableOpacity>
 
           <View className="items-center" style={{ gap: 16 }}>
-            <FastImage
-              source={
-                user?.image
-                  ? { uri: user.image }
-                  : require('../../assets/person.png')
-              }
-              resizeMode="cover"
-              className="h-32 w-32 rounded-full"
-            />
+            <TouchableOpacity onPress={handleOpenImagePicker}>
+              <FastImage
+                source={
+                  user?.image
+                    ? { uri: user.image }
+                    : require('../../assets/person.png')
+                }
+                resizeMode="cover"
+                className="h-32 w-32 rounded-full"
+              />
+              <Text className="text-center">Trocar foto</Text>
+            </TouchableOpacity>
 
             <View className="w-full" style={{ gap: 10 }}>
               <Controller

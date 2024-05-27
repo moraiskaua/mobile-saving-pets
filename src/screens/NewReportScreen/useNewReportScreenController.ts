@@ -9,6 +9,7 @@ import { reportsService } from '../../services/reportsService';
 import axios from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
 import { FileType } from '../../entities/types/File';
+import { env } from '../../constants/env';
 
 type FormData = z.infer<typeof schema>;
 
@@ -70,11 +71,11 @@ export const useNewReportScreenController = (goBack: () => void) => {
     try {
       const uploadData = new FormData();
       uploadData.append('file', asset);
-      uploadData.append('upload_preset', 'pr0qgvxd');
-      uploadData.append('cloud_name', 'dw5mfh7lg');
+      uploadData.append('upload_preset', env.UPLOAD_PRESET);
+      uploadData.append('cloud_name', env.CLOUD_NAME);
 
       const { data } = await axios.post(
-        'https://api.cloudinary.com/v1_1/dw5mfh7lg/upload',
+        `https://api.cloudinary.com/v1_1/${env.CLOUD_NAME}/upload`,
         uploadData,
         {
           headers: {

@@ -5,6 +5,10 @@ import { useAuth } from '../../hooks/useAuth';
 import { useState, useEffect } from 'react';
 import { useMe } from '../../helpers/useMe';
 import { userService } from '../../services/userService';
+import { launchImageLibrary } from 'react-native-image-picker';
+import axios from 'axios';
+import { FileType } from '../../entities/types/File';
+import { env } from '../../constants/env';
 
 type FormData = z.infer<typeof schema>;
 
@@ -17,6 +21,7 @@ const schema = z.object({
 });
 
 export const useSettingsController = () => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [editionMode, setEditionMode] = useState<boolean>(false);
   const { userId, logout, updatePassword } = useAuth();
   const { user, refetch } = useMe(userId);
@@ -60,6 +65,40 @@ export const useSettingsController = () => {
     toggleEditionMode();
   };
 
+  const handleOpenImagePicker = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+      },
+      response => {
+        if (response.didCancel) {
+          console.log('Operação cancelada');
+        }
+
+        console.log(response.assets?.[0].uri);
+      },
+    );
+  };
+
+  const handleUploadImage = async (asset: FileType) => {
+    try {
+      const uploadData = new FormData();
+      uploadData.append('file', asset);
+      uploadData.append('upload_preset', env.UPLOAD_PRESET);
+      uploadData.append('cloud_name', env.CLOUD_NAME);
+
+      const { data } = await axios.post(
+        `https://api.cloudinary.com/v1_1/${env.CLOUD_NAME}/upload`,
+        uploadData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+    } catch {}
+  };
+
   const setDefaultValues = () => {
     refetch();
 
@@ -80,6 +119,7 @@ export const useSettingsController = () => {
     setValue,
     logout,
     toggleEditionMode,
+    handleOpenImagePicker,
     setDefaultValues,
     handleSubmit,
     onSubmit,
