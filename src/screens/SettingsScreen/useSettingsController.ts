@@ -21,7 +21,6 @@ const schema = z.object({
 });
 
 export const useSettingsController = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [editionMode, setEditionMode] = useState<boolean>(false);
   const { userId, logout, updatePassword } = useAuth();
   const { user, refetch } = useMe(userId);
@@ -102,6 +101,9 @@ export const useSettingsController = () => {
           },
         },
       );
+
+      await userService.updateImage(userId, data.secure_url);
+      setDefaultValues();
     } catch {}
   };
 
@@ -122,7 +124,6 @@ export const useSettingsController = () => {
     editionMode,
     control,
     errors,
-    selectedImage,
     setValue,
     logout,
     toggleEditionMode,

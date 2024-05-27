@@ -9,7 +9,6 @@ import Header from '../../components/Header';
 import Input from '../../components/Input';
 import { formatPhone } from '../../utils/formaters';
 import { useSettingsController } from './useSettingsController';
-import { env } from '../../constants/env';
 
 interface SettingsScreenProps {}
 
