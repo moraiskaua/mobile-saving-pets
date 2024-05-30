@@ -5,11 +5,13 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useLoginController } from './useLoginController';
 import { Controller } from 'react-hook-form';
+import { Platform } from 'react-native';
 
 interface LoginScreenProps {}
 
@@ -27,7 +29,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({}) => {
         <Image source={require('../../assets/logo.png')} />
       </ImageBackground>
 
-      <View className="h-full items-center pt-7">
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        className="h-full items-center pt-7"
+      >
         <Text className="text-3xl font-bold text-gray-700">Fazer Login</Text>
 
         <View className="w-full p-4" style={{ gap: 20 }}>
@@ -57,7 +62,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({}) => {
               />
             )}
           />
-          <TouchableOpacity onPress={() => navigate('ForgotPassword')} className=''>
+          <TouchableOpacity
+            onPress={() => navigate('ForgotPassword')}
+            className=""
+          >
             <Text className="text-black/30">Esqueci a senha</Text>
           </TouchableOpacity>
 
@@ -72,7 +80,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({}) => {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
