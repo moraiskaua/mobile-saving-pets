@@ -1,4 +1,5 @@
 import { me } from './me';
+import { recoveryPasswordEmail } from './recoveryPasswordEmail';
 import { updateImage } from './updateImage';
 import { updateName } from './updateName';
 import { updatePassword } from './updatePassword';
@@ -8,6 +9,7 @@ export const userService = {
   me,
   updateName,
   updatePhone,
+  recoveryPasswordEmail,
   updatePassword,
   updateImage,
 };

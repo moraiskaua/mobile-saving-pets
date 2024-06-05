@@ -55,6 +55,7 @@ export const useSettingsController = () => {
 
     if (data.password && data.newPassword) {
       updatePassword({
+        email: user!.email,
         password: data.newPassword,
         oldPassword: data.password,
       });
