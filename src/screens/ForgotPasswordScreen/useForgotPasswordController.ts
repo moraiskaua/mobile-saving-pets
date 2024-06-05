@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigation } from '@react-navigation/native';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { userService } from '../../services/userService';
 
 type FormData = z.infer<typeof schema>;
 
@@ -13,7 +14,7 @@ const schema = z.object({
 });
 
 export const useForgotPasswordController = () => {
-  const { goBack } = useNavigation<any>();
+  const { goBack, navigate } = useNavigation<any>();
 
   const {
     handleSubmit,
@@ -27,8 +28,10 @@ export const useForgotPasswordController = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<FormData> = async => {
+  const onSubmit: SubmitHandler<FormData> = async data => {
+    // await userService.recoveryPasswordEmail(data);
 
+    navigate('ChangePassword');
   };
 
   return {
