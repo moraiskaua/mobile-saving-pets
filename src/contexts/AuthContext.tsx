@@ -10,7 +10,6 @@ interface AuthContextType {
   userId: string;
   login: (userId: string, accessToken: string) => void;
   logout: () => void;
-  updatePassword: ({ password, oldPassword }: updatePasswordDto) => void;
 }
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -53,13 +52,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     queryClient.invalidateQueries({ queryKey: ['users'] });
   };
 
-  const updatePassword = async ({
-    password,
-    oldPassword,
-  }: updatePasswordDto) => {
-    await userService.updatePassword(userId!, { password, oldPassword });
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -67,7 +59,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         userId: userId!,
         login,
         logout,
-        updatePassword,
       }}
     >
       {children}

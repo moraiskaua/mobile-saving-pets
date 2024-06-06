@@ -29,9 +29,9 @@ export const useForgotPasswordController = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    // await userService.recoveryPasswordEmail(data);
+    await userService.recoveryPasswordEmail(data);
 
-    navigate('ChangePassword');
+    navigate('ChangePassword', { email: data.email });
   };
 
   return {

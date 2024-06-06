@@ -11,6 +11,7 @@ interface ForgotPasswordScreenProps {}
 const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({}) => {
   const { goBack, control, errors, setValue, handleSubmit, onSubmit } =
     useForgotPasswordController();
+
   return (
     <SafeAreaView className="flex-1 items-center">
       <View className="items-center justify-center pt-5 mb-20">
@@ -43,7 +44,7 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({}) => {
           </Button>
           <View className="flex items-center">
             <TouchableOpacity onPress={() => goBack()}>
-              <Text className="text-black/50">Voltar </Text>
+              <Text className="text-black/50">Voltar</Text>
             </TouchableOpacity>
           </View>
         </View>

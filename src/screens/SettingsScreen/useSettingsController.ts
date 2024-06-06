@@ -22,7 +22,7 @@ const schema = z.object({
 
 export const useSettingsController = () => {
   const [editionMode, setEditionMode] = useState<boolean>(false);
-  const { userId, logout, updatePassword } = useAuth();
+  const { userId, logout } = useAuth();
   const { user, refetch } = useMe(userId);
 
   const toggleEditionMode = () => setEditionMode(!editionMode);
@@ -48,13 +48,14 @@ export const useSettingsController = () => {
   }, [user]);
 
   const onSubmit: SubmitHandler<FormData> = async data => {
+    console.log(data);
     if (data.name !== user!.name)
       await userService.updateName(userId, data.name);
     if (data.phone !== user!.phone)
       await userService.updatePhone(userId, data.phone);
 
     if (data.password && data.newPassword) {
-      updatePassword({
+      await userService.updatePassword({
         email: user!.email,
         password: data.newPassword,
         oldPassword: data.password,
