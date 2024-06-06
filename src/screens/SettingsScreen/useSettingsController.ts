@@ -48,7 +48,6 @@ export const useSettingsController = () => {
   }, [user]);
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    console.log(data);
     if (data.name !== user!.name)
       await userService.updateName(userId, data.name);
     if (data.phone !== user!.phone)
@@ -73,7 +72,7 @@ export const useSettingsController = () => {
       },
       response => {
         if (response.didCancel) {
-          console.log('Operação cancelada');
+          // toast aqui.
         }
 
         const file = {

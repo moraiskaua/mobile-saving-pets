@@ -86,13 +86,8 @@ export const useEditReportModalController = (
   });
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    try {
-      await reportsService.update(report.id, data);
-      queryClient.invalidateQueries({ queryKey: ['reports'] });
-      onClose();
-    } catch (err) {
-      console.log(err);
-    }
+    await reportsService.update(report.id, data);
+    queryClient.invalidateQueries({ queryKey: ['reports'] });
   };
 
   return {
