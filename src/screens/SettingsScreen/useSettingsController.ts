@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAuth } from '../../hooks/useAuth';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useMe } from '../../helpers/useMe';
 import { userService } from '../../services/userService';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -25,7 +25,10 @@ export const useSettingsController = () => {
   const { userId, logout } = useAuth();
   const { user, refetch } = useMe(userId);
 
-  const toggleEditionMode = () => setEditionMode(!editionMode);
+  const toggleEditionMode = useCallback(
+    () => setEditionMode(prev => !prev),
+    [],
+  );
 
   const {
     handleSubmit,
@@ -43,47 +46,58 @@ export const useSettingsController = () => {
     },
   });
 
+  const setDefaultValues = () => {
+    if (user) {
+      setValue('image', user.image || '');
+      setValue('name', user.name);
+      setValue('phone', user.phone);
+      setValue('password', '');
+      setValue('newPassword', '');
+    }
+
+    refetch();
+  };
+
   useEffect(() => {
     setDefaultValues();
   }, [user]);
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    if (data.name !== user!.name)
-      await userService.updateName(userId, data.name);
-    if (data.phone !== user!.phone)
-      await userService.updatePhone(userId, data.phone);
+    try {
+      if (data.name !== user!.name)
+        await userService.updateName(userId, data.name);
+      if (data.phone !== user!.phone)
+        await userService.updatePhone(userId, data.phone);
 
-    if (data.password && data.newPassword) {
-      await userService.updatePassword({
-        email: user!.email,
-        password: data.newPassword,
-        oldPassword: data.password,
-      });
+      if (data.password && data.newPassword) {
+        await userService.updatePassword({
+          email: user!.email,
+          password: data.newPassword,
+          oldPassword: data.password,
+        });
+      }
+
+      setDefaultValues();
+      toggleEditionMode();
+    } catch (error) {
+      console.error('Error updating user data:', error);
     }
-
-    setDefaultValues();
-    toggleEditionMode();
   };
 
   const handleOpenImagePicker = () => {
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-      },
-      response => {
-        if (response.didCancel) {
-          // toast aqui.
-        }
-
+    launchImageLibrary({ mediaType: 'photo' }, response => {
+      if (response.didCancel) {
+        // toast aqui.
+      } else if (response.assets?.length) {
         const file = {
-          uri: response.assets?.[0].uri!,
-          type: response.assets?.[0].type!,
-          name: response.assets?.[0].fileName!,
+          uri: response.assets[0].uri!,
+          type: response.assets[0].type!,
+          name: response.assets[0].fileName!,
         };
 
         handleUploadImage(file);
-      },
-    );
+      }
+    });
   };
 
   const handleUploadImage = async (asset: FileType) => {
@@ -97,26 +111,14 @@ export const useSettingsController = () => {
         `https://api.cloudinary.com/v1_1/${env.CLOUD_NAME}/upload`,
         uploadData,
         {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+          headers: { 'Content-Type': 'multipart/form-data' },
         },
       );
 
       await userService.updateImage(userId, data.secure_url);
       setDefaultValues();
-    } catch {}
-  };
-
-  const setDefaultValues = () => {
-    refetch();
-
-    if (user) {
-      setValue('image', user.image || '');
-      setValue('name', user.name);
-      setValue('phone', user.phone);
-      setValue('password', '');
-      setValue('newPassword', '');
+    } catch (error) {
+      console.error('Error uploading image:', error);
     }
   };
 
@@ -126,8 +128,8 @@ export const useSettingsController = () => {
     control,
     errors,
     setValue,
-    logout,
     toggleEditionMode,
+    logout,
     handleOpenImagePicker,
     setDefaultValues,
     handleSubmit,

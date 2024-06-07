@@ -2,8 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
 import { ReactNode, createContext, useEffect, useState } from 'react';
 import { AuthDataProps } from '../services/httpClient';
-import { updatePasswordDto } from '../services/userService/updatePassword';
-import { userService } from '../services/userService';
+import { User } from '../entities/User';
 
 interface AuthContextType {
   signedIn: boolean;
@@ -39,14 +38,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (userId: string, accessToken: string) => {
     await AsyncStorage.setItem(
       '@authData',
-      JSON.stringify({ accessToken, userId }),
+      JSON.stringify({ userId, accessToken }),
     );
     setSignedIn(true);
     setUserId(userId);
   };
 
   const logout = async () => {
-    await AsyncStorage.getItem('@authData');
+    await AsyncStorage.clear();
     setSignedIn(false);
     setUserId(null);
     queryClient.invalidateQueries({ queryKey: ['users'] });

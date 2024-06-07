@@ -15,6 +15,7 @@ import Header from '../../components/Header';
 import Input from '../../components/Input';
 import { formatPhone } from '../../utils/formaters';
 import { useSettingsController } from './useSettingsController';
+import { useRoute } from '@react-navigation/native';
 
 interface SettingsScreenProps {}
 

@@ -6,6 +6,8 @@ import SettingsScreen from '../screens/SettingsScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import NewReportScreen from '../screens/NewReportScreen';
 import { createStackNavigator } from '@react-navigation/stack';
+import { useAuth } from '../hooks/useAuth';
+import { useMe } from '../helpers/useMe';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
