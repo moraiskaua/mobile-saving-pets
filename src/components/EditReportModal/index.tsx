@@ -112,6 +112,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
               <Controller
                 name="status"
                 control={control}
+                defaultValue={report.status}
                 render={({ field }) => (
                   <Select
                     options={statusOptions}
@@ -130,6 +131,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
               <Controller
                 name="type"
                 control={control}
+                defaultValue={report.type}
                 render={({ field }) => (
                   <Select
                     options={reportTypeOptions}
@@ -146,6 +148,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
               <Controller
                 name="description"
                 control={control}
+                defaultValue={report.description}
                 render={({ field }) => (
                   <TextBox
                     numberOfLines={6}
@@ -164,6 +167,7 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
               <Controller
                 name="location"
                 control={control}
+                defaultValue={report.location}
                 render={({ field }) => (
                   <TextBox
                     initialValue={report.location}

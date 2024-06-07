@@ -122,6 +122,15 @@ export const useNewReportScreenController = (goBack: () => void) => {
     }
   };
 
+  const handleDeleteImage = (index: number) => {
+    setImagesLocal(prevImagesLocal =>
+      prevImagesLocal.filter((_, i) => i !== index),
+    );
+    setImagesPath(prevImagesPath =>
+      prevImagesPath.filter((_, i) => i !== index),
+    );
+  };
+
   return {
     imagesLocal,
     imagesPath,
@@ -133,6 +142,7 @@ export const useNewReportScreenController = (goBack: () => void) => {
     setValue,
     setIsCameraVisible,
     handleTakePicture,
+    handleDeleteImage,
     handleSubmit,
     onSubmit,
   };

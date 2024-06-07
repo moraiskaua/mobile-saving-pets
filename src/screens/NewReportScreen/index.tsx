@@ -36,6 +36,7 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
     setValue,
     setIsCameraVisible,
     handleTakePicture,
+    handleDeleteImage,
     handleSubmit,
     onSubmit,
   } = useNewReportScreenController(goBack);
@@ -69,19 +70,21 @@ const NewReportScreen: React.FC<NewReportScreenProps> = ({}) => {
                 </View>
               </TouchableOpacity>
             )}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <Controller
                 name="images"
                 control={control}
                 defaultValue={imagesPath}
                 render={({ field }) => (
-                  <FastImage
-                    source={{
-                      uri: item,
-                    }}
-                    className="h-32 w-44 rounded-xl"
-                    resizeMode="cover"
-                  />
+                  <TouchableOpacity onPress={() => handleDeleteImage(index)}>
+                    <FastImage
+                      source={{
+                        uri: item,
+                      }}
+                      className="h-32 w-44 rounded-xl"
+                      resizeMode="cover"
+                    />
+                  </TouchableOpacity>
                 )}
               />
             )}

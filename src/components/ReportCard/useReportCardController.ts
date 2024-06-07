@@ -12,17 +12,17 @@ export const useReportCardController = () => {
 
   const tabHeight = useBottomTabBarHeight();
 
-  const handlePressEdit = useCallback(async (reportId: string) => {
+  const handlePressEdit = async (reportId: string) => {
     const response = await reportsService.getById(reportId);
     setReport(response);
     setIsEditReportModalVisible(true);
-  }, []);
+  };
 
-  const handlePressDelete = useCallback(async (reportId: string) => {
+  const handlePressDelete = async (reportId: string) => {
     const response = await reportsService.getById(reportId);
     setReport(response);
     setIsDeleteModalVisible(true);
-  }, []);
+  };
 
   return {
     tabHeight,

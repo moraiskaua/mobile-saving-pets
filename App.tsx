@@ -3,12 +3,7 @@ import { AuthProvider } from './src/contexts/AuthContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Main from './src/Main';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import Toast, {
-  ErrorToast,
-  ToastConfigParams,
-  ToastProps,
-} from 'react-native-toast-message';
-import { Text, View } from 'react-native';
+import Toast, { ErrorToast, ToastProps } from 'react-native-toast-message';
 
 const queryClient = new QueryClient({
   defaultOptions: {

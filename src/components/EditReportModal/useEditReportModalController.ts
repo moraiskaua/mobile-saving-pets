@@ -31,7 +31,7 @@ export const useEditReportModalController = (
 ) => {
   const [isCameraVisible, setIsCameraVisible] = useState<boolean>(false);
   const [imagesLocal, setImagesLocal] = useState<string[]>(report.images);
-  const [imagesPath, setImagesPath] = useState<string[]>([]);
+  const [imagesPath, setImagesPath] = useState<string[]>(report.images);
   const device = useCameraDevice('back');
   const camera = useRef<Camera>(null);
   const queryClient = useQueryClient();
@@ -83,18 +83,23 @@ export const useEditReportModalController = (
     control,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: { ...report },
+    defaultValues: {
+      ...report,
+    },
   });
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    await reportsService.update(report.id, data);
-    queryClient.invalidateQueries({ queryKey: ['reports'] });
-    Toast.show({
-      type: 'success',
-      text1: 'Denúncia editada',
-      swipeable: true,
-      visibilityTime: 1800,
-    });
+    if (imagesLocal.length > 0) {
+      await reportsService.update(report.id, data);
+      queryClient.invalidateQueries({ queryKey: ['reports'] });
+      Toast.show({
+        type: 'success',
+        text1: 'Denúncia editada',
+        swipeable: true,
+        visibilityTime: 1800,
+      });
+      onClose();
+    }
   };
 
   return {
