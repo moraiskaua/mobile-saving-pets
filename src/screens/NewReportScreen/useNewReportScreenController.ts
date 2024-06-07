@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useQueryClient } from '@tanstack/react-query';
 import { FileType } from '../../entities/types/File';
 import { env } from '../../constants/env';
+import Toast from 'react-native-toast-message';
 
 type FormData = z.infer<typeof schema>;
 
@@ -85,16 +86,40 @@ export const useNewReportScreenController = (goBack: () => void) => {
       );
 
       setImagesPath(prevImagesPath => [...prevImagesPath, data.secure_url]);
-    } catch {}
+    } catch {
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao carregar imagem',
+        swipeable: true,
+        visibilityTime: 1800,
+      });
+    }
   };
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    await reportsService.create({
-      ...data,
-      images: imagesPath,
-    });
-    queryClient.invalidateQueries({ queryKey: ['reports'] });
-    goBack();
+    if (imagesLocal.length > 0) {
+      await reportsService.create({
+        ...data,
+        images: imagesPath,
+      });
+
+      queryClient.invalidateQueries({ queryKey: ['reports'] });
+      goBack();
+
+      Toast.show({
+        type: 'success',
+        text1: 'Denúncia cadastrada com sucesso',
+        swipeable: true,
+        visibilityTime: 1800,
+      });
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Imagens são obrigatórias',
+        swipeable: true,
+        visibilityTime: 1800,
+      });
+    }
   };
 
   return {

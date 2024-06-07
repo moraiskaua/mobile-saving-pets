@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQueryClient } from '@tanstack/react-query';
 import { ReactNode, createContext, useEffect, useState } from 'react';
 import { AuthDataProps } from '../services/httpClient';
-import { User } from '../entities/User';
 
 interface AuthContextType {
   signedIn: boolean;

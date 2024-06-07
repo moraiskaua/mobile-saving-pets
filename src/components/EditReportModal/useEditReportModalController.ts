@@ -12,6 +12,7 @@ import { FileType } from '../../entities/types/File';
 import { reportTypeOptions } from '../../entities/consts/reportTypeOptions';
 import { statusOptions } from '../../entities/consts/statusOptions';
 import { env } from '../../constants/env';
+import Toast from 'react-native-toast-message';
 
 type FormData = z.infer<typeof schema>;
 
@@ -88,6 +89,12 @@ export const useEditReportModalController = (
   const onSubmit: SubmitHandler<FormData> = async data => {
     await reportsService.update(report.id, data);
     queryClient.invalidateQueries({ queryKey: ['reports'] });
+    Toast.show({
+      type: 'success',
+      text1: 'Denúncia editada',
+      swipeable: true,
+      visibilityTime: 1800,
+    });
   };
 
   return {

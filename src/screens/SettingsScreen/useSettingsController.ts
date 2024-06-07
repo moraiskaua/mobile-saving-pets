@@ -9,6 +9,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import axios from 'axios';
 import { FileType } from '../../entities/types/File';
 import { env } from '../../constants/env';
+import Toast from 'react-native-toast-message';
 
 type FormData = z.infer<typeof schema>;
 
@@ -79,16 +80,26 @@ export const useSettingsController = () => {
 
       setDefaultValues();
       toggleEditionMode();
-    } catch (error) {
-      console.error('Error updating user data:', error);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Perfil atualizado',
+        swipeable: true,
+        visibilityTime: 1800,
+      });
+    } catch {
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao atualizar perfil',
+        swipeable: true,
+        visibilityTime: 1800,
+      });
     }
   };
 
   const handleOpenImagePicker = () => {
     launchImageLibrary({ mediaType: 'photo' }, response => {
-      if (response.didCancel) {
-        // toast aqui.
-      } else if (response.assets?.length) {
+      if (response.assets?.length) {
         const file = {
           uri: response.assets[0].uri!,
           type: response.assets[0].type!,
@@ -117,8 +128,13 @@ export const useSettingsController = () => {
 
       await userService.updateImage(userId, data.secure_url);
       setDefaultValues();
-    } catch (error) {
-      console.error('Error uploading image:', error);
+    } catch {
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao carregar imagem',
+        swipeable: true,
+        visibilityTime: 1800,
+      });
     }
   };
 
