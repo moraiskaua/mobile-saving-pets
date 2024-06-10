@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { signup } from '../../services/authService/signup';
+import Toast from 'react-native-toast-message';
 
 type FormData = z.infer<typeof schema>;
 
@@ -37,8 +38,17 @@ export const useSignupController = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    await signup(data);
-    navigate('Login');
+    try {
+      await signup(data);
+      navigate('Login');
+    } catch {
+      Toast.show({
+        type: 'error',
+        text1: 'Algo deu errado.',
+        swipeable: true,
+        visibilityTime: 1800,
+      });
+    }
   };
 
   return {

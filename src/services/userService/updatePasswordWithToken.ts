@@ -1,4 +1,3 @@
-import { User } from '../../entities/User';
 import { httpClient } from '../httpClient';
 
 export type updatePasswordWithTokenDto = {

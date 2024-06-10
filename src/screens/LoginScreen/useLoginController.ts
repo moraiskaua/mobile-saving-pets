@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { signin } from '../../services/authService/signin';
 import { useAuth } from '../../hooks/useAuth';
+import Toast from 'react-native-toast-message';
 
 type FormData = z.infer<typeof schema>;
 
@@ -33,8 +34,17 @@ export const useLoginController = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    const { userId, accessToken } = await signin(data);
-    login(userId, accessToken);
+    try {
+      const { userId, accessToken } = await signin(data);
+      login(userId, accessToken);
+    } catch {
+      Toast.show({
+        type: 'error',
+        text1: 'Email ou senha inválido',
+        swipeable: true,
+        visibilityTime: 1800,
+      });
+    }
   };
 
   return {

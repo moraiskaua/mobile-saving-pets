@@ -97,7 +97,7 @@ export const useNewReportScreenController = (goBack: () => void) => {
   };
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    if (imagesLocal.length > 0) {
+    if (imagesPath.length > 0) {
       await reportsService.create({
         ...data,
         images: imagesPath,

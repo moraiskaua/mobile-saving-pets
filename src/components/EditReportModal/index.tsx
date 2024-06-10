@@ -76,32 +76,23 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
             <FlatList
               data={imagesLocal}
               horizontal
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(_, index) => index.toString()}
               contentContainerStyle={{ gap: 10 }}
-              ListHeaderComponent={() => (
-                <TouchableOpacity onPress={() => setIsCameraVisible(true)}>
-                  <View className="h-32 w-44 border-2 border-black/50 rounded-xl bg-gray-200 items-center justify-center">
-                    <Icon name="upload-cloud" size={32} />
-                  </View>
-                </TouchableOpacity>
-              )}
-              renderItem={({ item, index }) => (
-                <TouchableOpacity onPress={() => {}}>
-                  <Controller
-                    name="images"
-                    control={control}
-                    defaultValue={report.images}
-                    render={({ field }) => (
-                      <FastImage
-                        source={{
-                          uri: item,
-                        }}
-                        className="h-32 w-44 rounded-xl"
-                        resizeMode="cover"
-                      />
-                    )}
-                  />
-                </TouchableOpacity>
+              renderItem={({ item }) => (
+                <Controller
+                  name="images"
+                  control={control}
+                  defaultValue={report.images}
+                  render={({ field }) => (
+                    <FastImage
+                      source={{
+                        uri: item,
+                      }}
+                      className="h-32 w-44 rounded-xl"
+                      resizeMode="cover"
+                    />
+                  )}
+                />
               )}
             />
           </KeyboardAvoidingView>

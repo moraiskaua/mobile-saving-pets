@@ -4,14 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Report } from '../../entities/Report';
 import { reportsService } from '../../services/reportsService';
 import { useQueryClient } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
-import { CameraRoll } from '@react-native-camera-roll/camera-roll';
-import { Camera, useCameraDevice } from 'react-native-vision-camera';
-import axios from 'axios';
-import { FileType } from '../../entities/types/File';
 import { reportTypeOptions } from '../../entities/consts/reportTypeOptions';
 import { statusOptions } from '../../entities/consts/statusOptions';
-import { env } from '../../constants/env';
 import Toast from 'react-native-toast-message';
 
 type FormData = z.infer<typeof schema>;
@@ -29,52 +23,7 @@ export const useEditReportModalController = (
   report: Report,
   onClose: () => void,
 ) => {
-  const [isCameraVisible, setIsCameraVisible] = useState<boolean>(false);
-  const [imagesLocal, setImagesLocal] = useState<string[]>(report.images);
-  const [imagesPath, setImagesPath] = useState<string[]>(report.images);
-  const device = useCameraDevice('back');
-  const camera = useRef<Camera>(null);
   const queryClient = useQueryClient();
-
-  const handleTakePicture = async () => {
-    const photo = await camera.current?.takePhoto();
-    if (photo) {
-      CameraRoll.saveAsset(`file://${photo.path}`, {
-        type: 'photo',
-      });
-
-      const file = {
-        uri: `file://${photo.path}`,
-        type: `image/${photo.path.split('.')[2]}`,
-        name: `image.${photo.path.split('/cache/')[1]}`,
-      };
-
-      await handleUploadImage(file);
-      setImagesLocal(prevImagesLocal => [...prevImagesLocal, file.uri]);
-      setIsCameraVisible(false);
-    }
-  };
-
-  const handleUploadImage = async (asset: FileType) => {
-    try {
-      const uploadData = new FormData();
-      uploadData.append('file', asset);
-      uploadData.append('upload_preset', env.UPLOAD_PRESET);
-      uploadData.append('cloud_name', env.CLOUD_NAME);
-
-      const { data } = await axios.post(
-        `https://api.cloudinary.com/v1_1/${env.CLOUD_NAME}/upload`,
-        uploadData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
-      );
-
-      setImagesPath(prevImagesPath => [...prevImagesPath, data.secure_url]);
-    } catch {}
-  };
 
   const {
     handleSubmit,
@@ -89,7 +38,7 @@ export const useEditReportModalController = (
   });
 
   const onSubmit: SubmitHandler<FormData> = async data => {
-    if (imagesLocal.length > 0) {
+    try {
       await reportsService.update(report.id, data);
       queryClient.invalidateQueries({ queryKey: ['reports'] });
       Toast.show({
@@ -99,6 +48,13 @@ export const useEditReportModalController = (
         visibilityTime: 1800,
       });
       onClose();
+    } catch {
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ao editar denúncia',
+        swipeable: true,
+        visibilityTime: 1800,
+      });
     }
   };
 
@@ -107,15 +63,6 @@ export const useEditReportModalController = (
     statusOptions,
     errors,
     control,
-    isCameraVisible,
-    imagesLocal,
-    imagesPath,
-    device,
-    camera,
-    handleTakePicture,
-    setIsCameraVisible,
-    setImagesLocal,
-    setImagesPath,
     setValue,
     handleSubmit,
     onSubmit,
