@@ -9,8 +9,6 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import { Image } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 import Select from '../Select';
 import TextBox from '../TextBox';
 import Button from '../Button';
@@ -21,7 +19,6 @@ import { Report } from '../../entities/Report';
 import { TypeOfAbuse } from '../../entities/types/TypeOfAbuse';
 import { TypeOfStatus } from '../../entities/types/TypeOfStatus';
 import FastImage from 'react-native-fast-image';
-import CameraScreen from '../CameraScreen';
 
 interface EditReportModalProps {
   visible: boolean;
@@ -39,15 +36,10 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
     statusOptions,
     control,
     errors,
-    isCameraVisible,
-    device,
-    camera,
-    imagesLocal,
-    handleTakePicture,
+    images,
     setValue,
     handleSubmit,
     onSubmit,
-    setIsCameraVisible,
   } = useEditReportModalController(report, onClose);
 
   return (
@@ -60,21 +52,13 @@ const EditReportModal: React.FC<EditReportModalProps> = ({
       <SafeAreaView className="flex-1">
         <Header size="small" />
 
-        <CameraScreen
-          visible={isCameraVisible}
-          device={device}
-          camera={camera}
-          onTakePicture={handleTakePicture}
-          onClose={() => setIsCameraVisible(false)}
-        />
-
         <ScrollView>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             className="p-3 pr-0"
           >
             <FlatList
-              data={imagesLocal}
+              data={images}
               horizontal
               keyExtractor={(_, index) => index.toString()}
               contentContainerStyle={{ gap: 10 }}

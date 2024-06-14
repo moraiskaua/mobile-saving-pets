@@ -63,6 +63,7 @@ export const useEditReportModalController = (
     statusOptions,
     errors,
     control,
+    images: report.images,
     setValue,
     handleSubmit,
     onSubmit,

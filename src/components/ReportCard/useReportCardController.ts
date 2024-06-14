@@ -4,7 +4,7 @@ import { reportsService } from '../../services/reportsService';
 import { Report } from '../../entities/Report';
 
 export const useReportCardController = () => {
-  const [report, setReport] = useState<Report>();
+  const [report, setReport] = useState<Report | null>(null);
   const [isDeleteModalVisible, setIsDeleteModalVisible] =
     useState<boolean>(false);
   const [isEditReportModalVisible, setIsEditReportModalVisible] =
@@ -24,14 +24,24 @@ export const useReportCardController = () => {
     setIsDeleteModalVisible(true);
   };
 
+  const handlePressEditModalClose = () => {
+    setReport(null);
+    setIsEditReportModalVisible(false);
+  };
+
+  const handlePressDeleteModalClose = () => {
+    setReport(null);
+    setIsDeleteModalVisible(false);
+  };
+
   return {
     tabHeight,
     isDeleteModalVisible,
     isEditReportModalVisible,
     report,
-    setIsDeleteModalVisible,
-    setIsEditReportModalVisible,
     handlePressEdit,
     handlePressDelete,
+    handlePressEditModalClose,
+    handlePressDeleteModalClose,
   };
 };

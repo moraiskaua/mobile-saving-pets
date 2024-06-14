@@ -21,8 +21,8 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
     report,
     handlePressEdit,
     handlePressDelete,
-    setIsEditReportModalVisible,
-    setIsDeleteModalVisible,
+    handlePressEditModalClose,
+    handlePressDeleteModalClose,
   } = useReportCardController();
 
   return (
@@ -32,13 +32,13 @@ const ReportCard: React.FC<ReportCardProps> = ({ reports }) => {
           <DeleteReportModal
             visible={isDeleteModalVisible}
             report={report}
-            onClose={() => setIsDeleteModalVisible(false)}
+            onClose={handlePressEditModalClose}
           />
 
           <EditReportModal
             visible={isEditReportModalVisible}
             report={report}
-            onClose={() => setIsEditReportModalVisible(false)}
+            onClose={handlePressDeleteModalClose}
           />
         </>
       )}
